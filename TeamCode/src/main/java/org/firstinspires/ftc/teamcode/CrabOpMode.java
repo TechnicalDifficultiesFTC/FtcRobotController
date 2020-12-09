@@ -26,8 +26,8 @@ public class CrabOpMode extends OpMode {
     @Override
     public void loop() {
         double armPower = 0;
-        if(gamepad1.left_stick_y >= 0.5) armPower = 0.2;
-        else if(gamepad1.left_stick_y <= -0.5) armPower = -0.2;
+        if(gamepad1.left_stick_y >= 0.5) armPower = 0.4;
+        else if(gamepad1.left_stick_y <= -0.5) armPower = -0.4;
 
         armMotor.setPower(armPower);
 
@@ -35,10 +35,10 @@ public class CrabOpMode extends OpMode {
         double rotationNum = 0.44;
 
         if(gamepad1.right_trigger >= 0.5) {
-            clawServoOne.setPosition(rotationNum);
+            clawServoOne.setPosition(1 - rotationNum);
             clawServoTwo.setPosition(rotationNum);
         } else {
-            clawServoOne.setPosition(gamepad1.a ? rotationNum : 0);
+            clawServoOne.setPosition(gamepad1.a ? (1 - rotationNum) : 1);
             clawServoTwo.setPosition(gamepad1.b ? rotationNum : 0);
         }
     }
