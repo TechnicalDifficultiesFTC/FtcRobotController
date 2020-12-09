@@ -11,7 +11,7 @@ public class GlizzyOpMode extends OpMode {
     DcMotor launcherWheel;
     Servo launchRamp;
 
-    double servoPosition = 0;
+    double servoPosition = 1;
 
     @Override
     public void init() {
@@ -24,8 +24,8 @@ public class GlizzyOpMode extends OpMode {
         double launcherWheelPower = gamepad1.left_stick_y * 0.75;
         launcherWheel.setPower(launcherWheelPower);
 
-        if(gamepad1.left_bumper) servoPosition += 0.005;
-        else if(gamepad1.right_bumper) servoPosition -= 0.005;
+        if(gamepad1.left_bumper) servoPosition += 0.001;
+        else if(gamepad1.right_bumper) servoPosition -= 0.001;
 
         // Bad code but fast to write code
         if(servoPosition > 1) servoPosition = 1;
