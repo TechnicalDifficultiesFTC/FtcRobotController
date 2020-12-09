@@ -35,11 +35,11 @@ public class CrabOpMode extends OpMode {
         double rotationNum = 0.44;
 
         if(gamepad1.right_trigger >= 0.5) {
-            clawServoOne.setPosition(1 - rotationNum);
-            clawServoTwo.setPosition(rotationNum);
+            clawServoOne.setPosition(1);
+            clawServoTwo.setPosition(0);
         } else {
-            clawServoOne.setPosition(gamepad1.a ? (1 - rotationNum) : 1);
-            clawServoTwo.setPosition(gamepad1.b ? rotationNum : 0);
+            clawServoOne.setPosition(gamepad1.a ? 1 : 1 - rotationNum);
+            clawServoTwo.setPosition(gamepad1.b ? 0 : rotationNum);
         }
     }
 }
