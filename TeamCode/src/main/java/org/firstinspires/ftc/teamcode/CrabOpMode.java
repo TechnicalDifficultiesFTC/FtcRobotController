@@ -32,7 +32,7 @@ public class CrabOpMode extends OpMode {
         armMotor.setPower(armPower);
 
         // 80 degrees (out of 180)
-        double rotationNum = 0.44;
+        double rotationNum = 0.33;
 
         if(gamepad1.right_trigger >= 0.5) {
             clawServoOne.setPosition(1 - rotationNum);
