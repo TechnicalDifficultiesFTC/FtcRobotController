@@ -12,32 +12,34 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "Crab")
 public class CrabOpMode extends OpMode {
 
-    DcMotor launcherWheel;
-    Servo launchRamp;
-
-    double servoPosition = 0;
+    DcMotor armMotor;
+    Servo clawServoOne;
+    Servo clawServoTwo;
 
     @Override
     public void init() {
-        launcherWheel = hardwareMap.get(DcMotor.class, "launcherWheel");
-        launchRamp = hardwareMap.get(Servo.class, "launchRamp");
+        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        clawServoOne = hardwareMap.get(Servo.class, "clawServoOne");
+        clawServoTwo = hardwareMap.get(Servo.class, "clawServoTwo");
     }
 
     @Override
     public void loop() {
-        double launcherWheelPower = gamepad1.x ? 0.75 : 0;
-        launcherWheel.setPower(launcherWheelPower);
+        double armPower = 0;
+        if(gamepad1.left_stick_y >= 0.5) armPower = 0.2;
+        else if(gamepad1.left_stick_y <= -0.5) armPower = -0.2;
 
-        if(gamepad1.left_bumper) servoPosition += 0.01;
-        else if(gamepad1.right_bumper) servoPosition -= 0.01;
+        armMotor.setPower(armPower);
 
-        // Bad code but fast to write code
-        if(servoPosition > 1) servoPosition = 1;
-        if(servoPosition < 0) servoPosition = 0;
+        // 80 degrees (out of 180)
+        double rotationNum = 0.44;
 
-        launchRamp.setPosition(servoPosition);
-
-        telemetry.addData("Launcher Power", launcherWheelPower);
-        telemetry.addData("Launch Ramp Position", servoPosition);
+        if(gamepad1.right_trigger >= 0.5) {
+            clawServoOne.setPosition(rotationNum);
+            clawServoTwo.setPosition(rotationNum);
+        } else {
+            clawServoOne.setPosition(gamepad1.a ? rotationNum : 0);
+            clawServoTwo.setPosition(gamepad1.b ? rotationNum : 0);
+        }
     }
 }
