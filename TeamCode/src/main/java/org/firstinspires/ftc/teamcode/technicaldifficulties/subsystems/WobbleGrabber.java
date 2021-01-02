@@ -43,8 +43,8 @@ public class WobbleGrabber implements Subsystem {
     @Override
     public void periodic() {
         wobbleArmMotor.setPower(wobbleArmPower);
-        wobbleClawServoA.setPosition(wobbleClawsOpen ? 1 - 0.55 : 0);
-        wobbleClawServoB.setPosition(wobbleClawsOpen ? 0.55 : 1);
+        wobbleClawServoA.setPosition(wobbleClawsOpen ? 0.6 : 0);
+        wobbleClawServoB.setPosition(wobbleClawsOpen ? 0 : 0.6);
 
         updateTelemtry();
     }
