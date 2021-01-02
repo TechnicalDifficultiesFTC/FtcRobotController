@@ -76,7 +76,7 @@ public class Shooter implements Subsystem {
     }
 
     public void setShooterWheelPower(double power) {
-        shooterWheelPower = power;
+        shooterWheelPower = Range.clip(power, 0, 1);
     }
 
     public void incrementShooterWheelPower(double incrementValue) {

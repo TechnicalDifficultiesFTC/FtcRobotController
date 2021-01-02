@@ -34,8 +34,8 @@ public class ShooterControlCommand implements Command {
         else if(gunnerGamepad.dpad_down) shooter.incrementShooterWheelPower(-0.05);
 
         // Shooter Ramp (REDO TO MOVE DEGREES)
-        if(gunnerGamepad.a) shooter.incrementShooterRampPosition(0.001);
-        else if(gunnerGamepad.y) shooter.incrementShooterRampPosition(-0.001);
+        if(gunnerGamepad.y) shooter.incrementShooterRampPosition(-0.001);
+        else if(gunnerGamepad.a) shooter.incrementShooterRampPosition(0.001);
     }
 
     @Override
