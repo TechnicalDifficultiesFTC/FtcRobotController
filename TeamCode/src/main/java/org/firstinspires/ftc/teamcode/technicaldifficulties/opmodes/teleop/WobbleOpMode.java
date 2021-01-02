@@ -5,9 +5,7 @@ import com.disnodeteam.dogecommander.DogeOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.ShooterControlCommand;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.WobbleControlCommand;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.WobbleGrabber;
 
 @TeleOp(group = "Testing", name = "Wobble Op Mode")

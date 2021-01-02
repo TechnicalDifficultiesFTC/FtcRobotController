@@ -64,6 +64,7 @@ public class WobbleGrabber implements Subsystem {
     private void updateTelemtry() {
         telemetry.addData("Wobble Claw", wobbleClawsOpen ? "Open" : "Closed");
         telemetry.addData("Wobble Arm Power", MiscUtils.getMotorPowerAsPercentage(wobbleArmPower));
+        telemetry.update();
     }
 
 }
