@@ -42,7 +42,7 @@ public class WobbleGrabber implements Subsystem {
     public void periodic() {
         wobbleArmMotor.setPower(wobbleArmPower);
         wobbleClawServoA.setPosition(wobbleClawsOpen ? 0.6 : 0.025);
-        wobbleClawServoB.setPosition(wobbleClawsOpen ? 0 : 0.575);
+        wobbleClawServoB.setPosition(wobbleClawsOpen ? 0.575 : 0);
 
         updateTelemtry();
     }
