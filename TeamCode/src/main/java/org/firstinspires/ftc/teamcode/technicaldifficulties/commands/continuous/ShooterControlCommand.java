@@ -35,17 +35,29 @@ public class ShooterControlCommand implements Command {
 
         // Shooter Speed
         if(gunnerGamepad.dpad_up) {
-            if(!shooterSpeedAdjusted) shooter.incrementShooterWheelPower(0.05);
+            if(!shooterSpeedAdjusted) {
+                shooter.incrementShooterWheelPower(0.05);
+                shooterSpeedAdjusted = true;
+            }
         } else if(gunnerGamepad.dpad_down) {
-            if (!shooterSpeedAdjusted) shooter.incrementShooterWheelPower(-0.05);
+            if (!shooterSpeedAdjusted) {
+                shooter.incrementShooterWheelPower(-0.05);
+                shooterSpeedAdjusted = true;
+            }
         } else shooterSpeedAdjusted = false;
 
         // Shooter Ramp (REDO TO MOVE DEGREES)
         if(gunnerGamepad.y) {
-            if(!shooterRampAdjusted) shooter.incrementShooterRampPosition(-0.055);
+            if(!shooterRampAdjusted) {
+                shooter.incrementShooterRampPosition(-0.055);
+                shooterRampAdjusted = true;
+            }
         }
         else if(gunnerGamepad.a) {
-            if(!shooterRampAdjusted) shooter.incrementShooterRampPosition(0.055);
+            if(!shooterRampAdjusted) {
+                shooter.incrementShooterRampPosition(0.055);
+                shooterRampAdjusted = true;
+            }
         } else shooterRampAdjusted = false;
     }
 
