@@ -29,7 +29,7 @@ public class WobbleControlCommand implements Command {
         else if(gunnerGamepad.right_bumper) wobbleGrabber.setWobbleClawsOpen(false);
 
         // Wobble Arm
-        wobbleGrabber.setWobbleArmPower(gunnerGamepad.left_stick_y * 0.3);
+        wobbleGrabber.setWobbleArmPower(gunnerGamepad.left_stick_y * -0.3);
     }
 
     @Override

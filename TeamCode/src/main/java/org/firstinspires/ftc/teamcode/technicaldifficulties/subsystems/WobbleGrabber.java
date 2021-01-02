@@ -10,8 +10,6 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.MiscUtils;
 
 public class WobbleGrabber implements Subsystem {
 
-    // Configuration Variables
-
     // Subsystem Setup
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
@@ -43,8 +41,8 @@ public class WobbleGrabber implements Subsystem {
     @Override
     public void periodic() {
         wobbleArmMotor.setPower(wobbleArmPower);
-        wobbleClawServoA.setPosition(wobbleClawsOpen ? 0.6 : 0);
-        wobbleClawServoB.setPosition(wobbleClawsOpen ? 0 : 0.6);
+        wobbleClawServoA.setPosition(wobbleClawsOpen ? 0.6 : 0.025);
+        wobbleClawServoB.setPosition(wobbleClawsOpen ? 0 : 0.0575);
 
         updateTelemtry();
     }
