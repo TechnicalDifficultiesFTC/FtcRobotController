@@ -90,7 +90,7 @@ public class Shooter implements Subsystem {
     private void updateTelemtry() {
         telemetry.addData("Shooter State", shooterWheelState);
         telemetry.addData("Shooter Power", MiscUtils.getMotorPowerAsPercentage(shooterWheelPower));
-        telemetry.addData("Shooter Ramp Position", "NOT YET IMPLEMENTED. REMIND ME TO DO THIS!");
+        telemetry.addData("Shooter Ramp Position", Math.round(shooterRampPosition * 180) + "Degrees?");
         telemetry.update();
     }
 }
