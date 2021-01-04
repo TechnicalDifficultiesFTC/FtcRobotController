@@ -35,7 +35,7 @@ public class WobbleGrabber implements Subsystem {
         wobbleClawServoB = hardwareMap.get(Servo.class, "wobbleClawServoB");
 
         stopWobbleArm();
-        setWobbleClawsOpen(false);
+        setWobbleClawsOpen(true);
     }
 
     @Override

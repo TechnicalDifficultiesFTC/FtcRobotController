@@ -14,6 +14,7 @@ public class ShooterControlCommand implements Command {
     // REDO THIS SYSTEM LATER
     private boolean shooterSpeedAdjusted;
     private boolean shooterRampAdjusted;
+    private boolean speedLockPressed;
 
     public ShooterControlCommand(Shooter shooter, Gamepad gunnerGamepad) {
         this.shooter = shooter;
@@ -33,6 +34,14 @@ public class ShooterControlCommand implements Command {
         else if(gunnerGamepad.dpad_left) shooter.setShooterWheelState(OperationState.REVERSE);
         else shooter.setShooterWheelState(OperationState.OFF);
 
+        // Shooter Speed Lock
+        if(gunnerGamepad.x) {
+            if(!speedLockPressed) {
+                shooter.toggleSpeedLock();
+                speedLockPressed = true;
+            }
+        } else speedLockPressed = false;
+
         // Shooter Speed
         if(gunnerGamepad.dpad_up) {
             if(!shooterSpeedAdjusted) {
@@ -46,16 +55,15 @@ public class ShooterControlCommand implements Command {
             }
         } else shooterSpeedAdjusted = false;
 
-        // Shooter Ramp (REDO TO MOVE DEGREES)
         if(gunnerGamepad.y) {
             if(!shooterRampAdjusted) {
-                shooter.incrementShooterRampPosition(-0.055);
+                shooter.incrementShooterRampPosition(-9.0 / 180.0);
                 shooterRampAdjusted = true;
             }
         }
         else if(gunnerGamepad.a) {
             if(!shooterRampAdjusted) {
-                shooter.incrementShooterRampPosition(0.055);
+                shooter.incrementShooterRampPosition(9.0 / 180.0);
                 shooterRampAdjusted = true;
             }
         } else shooterRampAdjusted = false;

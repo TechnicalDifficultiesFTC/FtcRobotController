@@ -27,6 +27,7 @@ public class Shooter implements Subsystem {
     private OperationState shooterWheelState = OperationState.OFF;
     private double shooterWheelPower;
     private double shooterRampPosition = shooterRampStartingPosition;
+    private boolean speedLocked;
 
     public Shooter(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -76,6 +77,7 @@ public class Shooter implements Subsystem {
     }
 
     public void setShooterWheelPower(double power) {
+        if(speedLocked) return;
         shooterWheelPower = Range.clip(power, 0, 1);
     }
 
@@ -87,10 +89,15 @@ public class Shooter implements Subsystem {
         setShooterWheelState(OperationState.OFF);
     }
 
+    public void toggleSpeedLock() {
+        speedLocked = !speedLocked;
+    }
+
     private void updateTelemtry() {
         telemetry.addData("Shooter State", shooterWheelState);
         telemetry.addData("Shooter Power", MiscUtils.getMotorPowerAsPercentage(shooterWheelPower));
-        telemetry.addData("Shooter Ramp Position", Math.round(shooterRampPosition * 180) + "Degrees?");
+        telemetry.addData("Shooter Power Locked", speedLocked);
+        telemetry.addData("Shooter Ramp Position", Math.round(shooterRampPosition * 180) + " Degrees?");
         telemetry.update();
     }
 }
