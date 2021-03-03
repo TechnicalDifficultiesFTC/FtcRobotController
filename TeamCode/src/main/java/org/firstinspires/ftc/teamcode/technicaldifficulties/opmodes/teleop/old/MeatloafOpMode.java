@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.technicaldifficulties.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.technicaldifficulties.opmodes.teleop.old;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Admin on 2/7/2021.
  */
 
+// OLD
 @TeleOp(group = "Testing", name = "Meatloaf Op Mode")
 public class MeatloafOpMode extends OpMode {
 // Hasan is a meatloaf

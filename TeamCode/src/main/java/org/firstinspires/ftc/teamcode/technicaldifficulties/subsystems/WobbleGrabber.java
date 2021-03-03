@@ -2,67 +2,58 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 
 import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.MiscUtils;
 
 public class WobbleGrabber implements Subsystem {
 
-    // Subsystem Setup
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
+    private Gamepad test;
 
-    // Hardware Components
-    private DcMotor wobbleArmMotor;
-    private Servo wobbleClawServoA;
-    private Servo wobbleClawServoB;
+    private boolean clawOpen = false;
 
-    // Control Variables
-    private double wobbleArmPower;
-    private boolean wobbleClawsOpen;
+    private Servo leftServo;
+    private Servo rightServo;
 
-    public WobbleGrabber(HardwareMap hardwareMap, Telemetry telemetry) {
+    private DcMotor motor;
+
+    public WobbleGrabber(HardwareMap hardwareMap, Telemetry telemetry, Gamepad test) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
+        this.test = test;
     }
 
     @Override
     public void initHardware() {
-        wobbleArmMotor = hardwareMap.get(DcMotor.class, "wobbleArmMotor");
-        wobbleClawServoA = hardwareMap.get(Servo.class, "wobbleClawServoA");
-        wobbleClawServoB = hardwareMap.get(Servo.class, "wobbleClawServoB");
+        leftServo = hardwareMap.get(Servo.class, "clawLeftServo");
+        rightServo = hardwareMap.get(Servo.class, "clawRightServo");
 
-        stopWobbleArm();
-        setWobbleClawsOpen(true);
+        motor = hardwareMap.get(DcMotor.class, "wobbleArmMotor");
+
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
     public void periodic() {
-        wobbleArmMotor.setPower(wobbleArmPower);
-        wobbleClawServoA.setPosition(wobbleClawsOpen ? 0.6 : 0.025);
-        wobbleClawServoB.setPosition(wobbleClawsOpen ? 0.575 : 0);
+        leftServo.setPosition(clawOpen ? 0.6 : 0.3);
+        rightServo.setPosition(clawOpen ? 0.6 : 0.3);
 
-        updateTelemtry();
-    }
+        if(test.x) motor.setPower(0.2);
+        else if(test.y) motor.setPower(-0.2);
+        else motor.setPower(0);
 
-    public void setWobbleClawsOpen(boolean open) {
-        this.wobbleClawsOpen = open;
-    }
-
-    public void setWobbleArmPower(double power) {
-        this.wobbleArmPower = power;
-    }
-
-    public void stopWobbleArm() {
-        setWobbleArmPower(0);
-    }
-
-    private void updateTelemtry() {
-        telemetry.addData("Wobble Claw", wobbleClawsOpen ? "Open" : "Closed");
-        telemetry.addData("Wobble Arm Power", MiscUtils.getMotorPowerAsPercentage(wobbleArmPower));
+        telemetry.addData("Claw State", clawOpen ? "Open" : "Closed");
+        telemetry.addData("Motor Debug", motor.getCurrentPosition() + " | " + motor.isBusy());
         telemetry.update();
     }
 
+    public void setClawOpen(boolean open) {
+        clawOpen = open;
+    }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
+package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.old;
 
 import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.MiscUtils;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.OperationState;
 
+// OLD
 public class Shooter implements Subsystem {
 
     // Configuration Variables

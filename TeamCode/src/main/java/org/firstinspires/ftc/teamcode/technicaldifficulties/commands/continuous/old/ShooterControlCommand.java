@@ -1,11 +1,12 @@
-package org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous;
+package org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.old;
 
 import com.disnodeteam.dogecommander.Command;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.technicaldifficulties.OperationState;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.old.Shooter;
 
+// OLD
 public class ShooterControlCommand implements Command {
 
     private Shooter shooter;
