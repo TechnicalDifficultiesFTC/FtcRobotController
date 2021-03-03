@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 
 import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -12,7 +11,6 @@ public class WobbleGrabber implements Subsystem {
 
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
-    private Gamepad test;
 
     private boolean clawOpen = false;
 
@@ -20,11 +18,11 @@ public class WobbleGrabber implements Subsystem {
     private Servo rightServo;
 
     private DcMotor motor;
+    private double armPower = 0;
 
-    public WobbleGrabber(HardwareMap hardwareMap, Telemetry telemetry, Gamepad test) {
+    public WobbleGrabber(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-        this.test = test;
     }
 
     @Override
@@ -44,16 +42,18 @@ public class WobbleGrabber implements Subsystem {
         leftServo.setPosition(clawOpen ? 0.6 : 0.3);
         rightServo.setPosition(clawOpen ? 0.6 : 0.3);
 
-        if(test.x) motor.setPower(0.2);
-        else if(test.y) motor.setPower(-0.2);
-        else motor.setPower(0);
+        motor.setPower(armPower);
 
-        telemetry.addData("Claw State", clawOpen ? "Open" : "Closed");
-        telemetry.addData("Motor Debug", motor.getCurrentPosition() + " | " + motor.isBusy());
-        telemetry.update();
+        //telemetry.addData("Claw State", clawOpen ? "Open" : "Closed");
+        //telemetry.addData("Motor Debug", motor.getCurrentPosition() + " | " + motor.isBusy());
+        //telemetry.update();
     }
 
     public void setClawOpen(boolean open) {
         clawOpen = open;
+    }
+
+    public void setArmPower(double power) {
+        armPower = power;
     }
 }
