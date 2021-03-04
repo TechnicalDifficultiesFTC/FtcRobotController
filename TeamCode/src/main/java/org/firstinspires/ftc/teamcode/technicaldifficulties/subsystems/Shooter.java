@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 
 import com.disnodeteam.dogecommander.Subsystem;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,6 +16,11 @@ public class Shooter implements Subsystem {
     private Gamepad gamepad;
 
     private Servo flickerServo;
+    private boolean flick = false;
+
+    private DcMotor leftMotor;
+    private DcMotor rightMotor;
+    private double shooterPower;
 
     public Shooter(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad) {
         this.hardwareMap = hardwareMap;
@@ -24,15 +31,26 @@ public class Shooter implements Subsystem {
     @Override
     public void initHardware() {
         flickerServo = hardwareMap.get(Servo.class, "lowerFlickerServo");
+        leftMotor = hardwareMap.get(DcMotor.class, "leftShooterMotor");
+        rightMotor = hardwareMap.get(DcMotor.class, "rightShooterMotor");
+        leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void periodic() {
-        if(gamepad.x) flickerServo.setPosition(0);
-        else if(gamepad.y) flickerServo.setPosition(0.25);
-        else if(gamepad.a) flickerServo.setPosition(0.5);
-        else if(gamepad.b) flickerServo.setPosition(0.75);
-        else flickerServo.setPosition(1);
+        flickerServo.setPosition(flick ? 0.5 : 0.32);
+
+        leftMotor.setPower(shooterPower);
+        rightMotor.setPower(shooterPower);
+    }
+
+    public void setShooterPower(double power) {
+        shooterPower = power;
+    }
+
+    public void setFlick(boolean flick) {
+        this.flick = flick;
     }
 
 }

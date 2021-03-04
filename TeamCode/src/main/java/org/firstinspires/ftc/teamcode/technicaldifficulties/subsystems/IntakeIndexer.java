@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 
 import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -20,6 +21,9 @@ public class IntakeIndexer implements Subsystem {
 
     private Servo flickerServo;
 
+    private DcMotor intakeMotor;
+    private double intakePower = 0;
+
     public IntakeIndexer(HardwareMap hardwareMap, Telemetry telemetry, Gamepad driverGamepad, Gamepad gunnerGamepad) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
@@ -31,15 +35,21 @@ public class IntakeIndexer implements Subsystem {
     public void initHardware() {
         colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
         flickerServo = hardwareMap.get(Servo.class, "upperFlickerServo");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
     }
 
     @Override
     public void periodic() {
         colorSensor.enableLed(colorSensorLED);
-        flickerServo.setPosition(colorSensor.argb() >= 0 ? 0.38 : 0.6);
+        flickerServo.setPosition(colorSensor.green() >= 1000 ? 0.6 : 0.38);
+        intakeMotor.setPower(intakePower);
     }
 
     public void setColorSensorLEDEnabled(boolean enabled) {
         colorSensorLED = enabled;
+    }
+
+    public void setIntakePower(double intakePower) {
+        this.intakePower = intakePower;
     }
 }

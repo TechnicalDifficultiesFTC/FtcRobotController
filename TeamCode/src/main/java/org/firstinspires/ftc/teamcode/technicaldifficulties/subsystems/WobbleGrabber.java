@@ -39,8 +39,8 @@ public class WobbleGrabber implements Subsystem {
 
     @Override
     public void periodic() {
-        leftServo.setPosition(clawOpen ? 0.6 : 0.3);
-        rightServo.setPosition(clawOpen ? 0.6 : 0.3);
+        leftServo.setPosition(clawOpen ? 0.8 : 0.2);
+        rightServo.setPosition(clawOpen ? 0.8 : 0.2);
 
         motor.setPower(armPower);
 
