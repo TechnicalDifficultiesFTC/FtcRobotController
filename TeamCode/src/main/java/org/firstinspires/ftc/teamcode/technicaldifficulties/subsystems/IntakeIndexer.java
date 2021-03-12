@@ -40,8 +40,12 @@ public class IntakeIndexer implements Subsystem {
 
     @Override
     public void periodic() {
+        boolean position = colorSensor.green() >= 1000;
+        if(gunnerGamepad.x) position = true;
+        if(gunnerGamepad.b) position = false;
+
         colorSensor.enableLed(colorSensorLED);
-        flickerServo.setPosition(colorSensor.green() >= 1000 ? 0.6 : 0.38);
+        flickerServo.setPosition(position ? 0.6 : 0.38);
         intakeMotor.setPower(intakePower);
     }
 
