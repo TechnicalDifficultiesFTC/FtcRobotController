@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 
 import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -31,6 +32,7 @@ public class WobbleGrabber implements Subsystem {
         rightServo = hardwareMap.get(Servo.class, "clawRightServo");
 
         motor = hardwareMap.get(DcMotor.class, "wobbleArmMotor");
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -39,8 +41,8 @@ public class WobbleGrabber implements Subsystem {
 
     @Override
     public void periodic() {
-        leftServo.setPosition(clawOpen ? 0.8 : 0.2);
-        rightServo.setPosition(clawOpen ? 0.8 : 0.2);
+        leftServo.setPosition(clawOpen ? 0.8 : 0.3);
+        rightServo.setPosition(clawOpen ? 0.8 : 0.3);
 
         motor.setPower(armPower);
 

@@ -45,7 +45,7 @@ public class IntakeIndexer implements Subsystem {
         if(gunnerGamepad.b) position = false;
 
         colorSensor.enableLed(colorSensorLED);
-        flickerServo.setPosition(position ? 0.6 : 0.38);
+        flickerServo.setPosition(position ? 0.8 : 0.38);
         intakeMotor.setPower(intakePower);
     }
 

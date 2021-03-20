@@ -26,8 +26,8 @@ public class DriveBase implements Subsystem {
     public void initHardware() {
         for(int i = 0; i < 4; i++) driveMotors[i] = hardwareMap.get(DcMotor.class, driveMotorNames[i]);
 
-        driveMotors[0].setDirection(DcMotorSimple.Direction.REVERSE);
         driveMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
+        driveMotors[3].setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
