@@ -6,4 +6,8 @@ public class MiscUtils {
         return Math.round(power * 100) + "%";
     }
 
+    public static double mmToInches(double mm) {
+        return mm * 25.4;
+    }
+
 }
