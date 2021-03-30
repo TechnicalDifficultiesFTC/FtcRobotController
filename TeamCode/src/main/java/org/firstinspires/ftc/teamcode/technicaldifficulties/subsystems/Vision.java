@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.vision.RingCount;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.vision.StackCountPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -13,12 +14,14 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 public class Vision implements Subsystem {
 
     private HardwareMap hardwareMap;
+    private Telemetry telemetry;
 
     private OpenCvInternalCamera phoneCam;
     private StackCountPipeline pipeline;
 
-    public Vision(HardwareMap hardwareMap) {
+    public Vision(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
     }
 
     @Override
@@ -33,7 +36,9 @@ public class Vision implements Subsystem {
 
     @Override
     public void periodic() {
-
+        telemetry.addData("Count", this::getRingCount);
+        telemetry.addData("Analysis", pipeline.getAnalysis());
+        telemetry.update();
     }
 
     public RingCount getRingCount() {

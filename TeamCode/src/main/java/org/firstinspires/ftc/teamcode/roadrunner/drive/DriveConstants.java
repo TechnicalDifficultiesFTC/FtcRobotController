@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.roadrunner.drive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
@@ -72,6 +73,11 @@ public class DriveConstants {
     public static double MAX_ACCEL = 40;
     public static double MAX_ANG_VEL = Math.toRadians(158);
     public static double MAX_ANG_ACCEL = Math.toRadians(158);
+
+    // REMOVED FROM SampleMecanumDrive.java
+    public static double LATERAL_MULTIPLIER = 1.3;
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
 
     public static double encoderTicksToInches(double ticks) {

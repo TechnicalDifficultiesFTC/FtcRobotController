@@ -1,19 +1,15 @@
-package org.firstinspires.ftc.teamcode.roadrunner.drive;
+package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 
 import androidx.annotation.NonNull;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
@@ -26,6 +22,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationCon
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.util.NanoClock;
+import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -36,7 +33,8 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
-import org.firstinspires.ftc.teamcode.roadrunner.util.DashboardUtil;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxModuleUtil;
 
 import java.util.ArrayList;
@@ -59,16 +57,15 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.LAT
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.TRANSLATIONAL_PID;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.HEADING_PID;
 
-/*
- * Simple mecanum drive hardware implementation for REV hardware.
- */
-@Config
-public class SampleMecanumDrive extends MecanumDrive {
-    public static double VX_WEIGHT = 1;
-    public static double VY_WEIGHT = 1;
-    public static double OMEGA_WEIGHT = 1;
+public class RoadrunnerDriveBase extends MecanumDrive implements Subsystem {
 
-    public static int POSE_HISTORY_LIMIT = 100;
+    private HardwareMap hardwareMap;
+
+    private static final double VX_WEIGHT = 1;
+    private static final double VY_WEIGHT = 1;
+    private static final double OMEGA_WEIGHT = 1;
+
+    private static final int POSE_HISTORY_LIMIT = 100;
 
     public enum Mode {
         IDLE,
@@ -76,7 +73,6 @@ public class SampleMecanumDrive extends MecanumDrive {
         FOLLOW_TRAJECTORY
     }
 
-    private FtcDashboard dashboard;
     private NanoClock clock;
 
     private Mode mode;
@@ -99,12 +95,13 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private Pose2d lastPoseOnTurn;
 
-    public SampleMecanumDrive(HardwareMap hardwareMap) {
+    public RoadrunnerDriveBase(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
+        this.hardwareMap = hardwareMap;
+    }
 
-        dashboard = FtcDashboard.getInstance();
-        dashboard.setTelemetryTransmissionInterval(25);
-
+    @Override
+    public void initHardware() {
         clock = NanoClock.system();
 
         mode = Mode.IDLE;
@@ -143,22 +140,11 @@ public class SampleMecanumDrive extends MecanumDrive {
             motor.setMotorType(motorConfigurationType);
         }
 
-        if (RUN_USING_ENCODER) {
-            setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
-            setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
-        }
-
-        // TODO: reverse any motors using DcMotor.setDirection()
         motors.get(0).setDirection(DcMotorSimple.Direction.REVERSE);
         motors.get(1).setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // TODO: if desired, use setLocalizer() to change the localization method
-        // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
         setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
     }
 
@@ -166,7 +152,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         return new TrajectoryBuilder(startPose, velConstraint, accelConstraint);
     }
 
-    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, boolean reversed) {
+    public TrajectoryBuilder tracjectoryBuilder(Pose2d startPose, boolean reversed) {
         return new TrajectoryBuilder(startPose, reversed, velConstraint, accelConstraint);
     }
 
@@ -190,19 +176,9 @@ public class SampleMecanumDrive extends MecanumDrive {
         mode = Mode.TURN;
     }
 
-    public void turn(double angle) {
-        turnAsync(angle);
-        waitForIdle();
-    }
-
     public void followTrajectoryAsync(Trajectory trajectory) {
         follower.followTrajectory(trajectory);
         mode = Mode.FOLLOW_TRAJECTORY;
-    }
-
-    public void followTrajectory(Trajectory trajectory) {
-        followTrajectoryAsync(trajectory);
-        waitForIdle();
     }
 
     public Pose2d getLastError() {
@@ -217,7 +193,8 @@ public class SampleMecanumDrive extends MecanumDrive {
         throw new AssertionError();
     }
 
-    public void update() {
+    @Override
+    public void periodic() {
         updatePoseEstimate();
 
         Pose2d currentPose = getPoseEstimate();
@@ -229,29 +206,13 @@ public class SampleMecanumDrive extends MecanumDrive {
             poseHistory.removeFirst();
         }
 
-        TelemetryPacket packet = new TelemetryPacket();
-        Canvas fieldOverlay = packet.fieldOverlay();
-
-        packet.put("mode", mode);
-
-        packet.put("x", currentPose.getX());
-        packet.put("y", currentPose.getY());
-        packet.put("heading (deg)", Math.toDegrees(currentPose.getHeading()));
-
-        packet.put("xError", lastError.getX());
-        packet.put("yError", lastError.getY());
-        packet.put("headingError (deg)", Math.toDegrees(lastError.getHeading()));
-
         switch (mode) {
             case IDLE:
-                // do nothing
                 break;
             case TURN: {
                 double t = clock.seconds() - turnStart;
 
                 MotionState targetState = turnProfile.get(t);
-
-                turnController.setTargetPosition(targetState.getX());
 
                 double correction = turnController.update(currentPose.getHeading());
 
@@ -263,12 +224,7 @@ public class SampleMecanumDrive extends MecanumDrive {
                         0, 0, targetAlpha
                 )));
 
-                Pose2d newPose = lastPoseOnTurn.copy(lastPoseOnTurn.getX(), lastPoseOnTurn.getY(), targetState.getX());
-
-                fieldOverlay.setStroke("#4CAF50");
-                DashboardUtil.drawRobot(fieldOverlay, newPose);
-
-                if (t >= turnProfile.duration()) {
+                if(t >= turnProfile.duration()) {
                     mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }
@@ -278,18 +234,7 @@ public class SampleMecanumDrive extends MecanumDrive {
             case FOLLOW_TRAJECTORY: {
                 setDriveSignal(follower.update(currentPose, getPoseVelocity()));
 
-                Trajectory trajectory = follower.getTrajectory();
-
-                fieldOverlay.setStrokeWidth(1);
-                fieldOverlay.setStroke("#4CAF50");
-                DashboardUtil.drawSampledPath(fieldOverlay, trajectory.getPath());
-                double t = follower.elapsedTime();
-                DashboardUtil.drawRobot(fieldOverlay, trajectory.get(t));
-
-                fieldOverlay.setStroke("#3F51B5");
-                DashboardUtil.drawPoseHistory(fieldOverlay, poseHistory);
-
-                if (!follower.isFollowing()) {
+                if(!follower.isFollowing()) {
                     mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }
@@ -297,33 +242,18 @@ public class SampleMecanumDrive extends MecanumDrive {
                 break;
             }
         }
-
-        fieldOverlay.setStroke("#3F51B5");
-        DashboardUtil.drawRobot(fieldOverlay, currentPose);
-
-        dashboard.sendTelemetryPacket(packet);
     }
 
-    public void waitForIdle() {
-        while (!Thread.currentThread().isInterrupted() && isBusy()) {
-            update();
-        }
-    }
-
-    public boolean isBusy() {
-        return mode != Mode.IDLE;
+    public Mode getOperationMode() {
+        return mode;
     }
 
     public void setMode(DcMotor.RunMode runMode) {
-        for (DcMotorEx motor : motors) {
-            motor.setMode(runMode);
-        }
+        for (DcMotorEx motor : motors) motor.setMode(runMode);
     }
 
     public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
-        for (DcMotorEx motor : motors) {
-            motor.setZeroPowerBehavior(zeroPowerBehavior);
-        }
+        for(DcMotorEx motor : motors) motor.setZeroPowerBehavior(zeroPowerBehavior);
     }
 
     public void setPIDFCoefficients(DcMotor.RunMode runMode, PIDFCoefficients coefficients) {
@@ -331,9 +261,8 @@ public class SampleMecanumDrive extends MecanumDrive {
                 coefficients.p, coefficients.i, coefficients.d,
                 coefficients.f * 12 / batteryVoltageSensor.getVoltage()
         );
-        for (DcMotorEx motor : motors) {
-            motor.setPIDFCoefficients(runMode, compensatedCoefficients);
-        }
+
+        for (DcMotorEx motor : motors) motor.setPIDFCoefficients(runMode, compensatedCoefficients);
     }
 
     public void setWeightedDrivePower(Pose2d drivePower) {
@@ -360,18 +289,14 @@ public class SampleMecanumDrive extends MecanumDrive {
     @Override
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
-        for (DcMotorEx motor : motors) {
-            wheelPositions.add(encoderTicksToInches(motor.getCurrentPosition()));
-        }
+        for (DcMotorEx motor : motors) wheelPositions.add(encoderTicksToInches(motor.getCurrentPosition()));
         return wheelPositions;
     }
 
     @Override
     public List<Double> getWheelVelocities() {
         List<Double> wheelVelocities = new ArrayList<>();
-        for (DcMotorEx motor : motors) {
-            wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
-        }
+        for (DcMotorEx motor : motors) wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
         return wheelVelocities;
     }
 
