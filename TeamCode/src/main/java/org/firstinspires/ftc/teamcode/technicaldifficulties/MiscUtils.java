@@ -7,7 +7,7 @@ public class MiscUtils {
     }
 
     public static double mmToInches(double mm) {
-        return mm * 25.4;
+        return mm / 25.4;
     }
 
 }
