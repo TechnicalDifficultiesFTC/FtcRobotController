@@ -58,8 +58,8 @@ public class DriveConstants {
      * empirically tuned.
      */
     //public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
-    public static double kV = 0.02142;
-    public static double kA = 0.002;
+    public static double kV = 1.0 / rpmToVelocity(MAX_RPM); //0.02142;
+    public static double kA = 0; //0.002;
     public static double kStatic = 0.07196;
 
     /*
@@ -70,9 +70,9 @@ public class DriveConstants {
      * inches.
      */
     public static double MAX_VEL = 30; //40;
-    public static double MAX_ACCEL = 20; //40;
-    public static double MAX_ANG_VEL = 1; //Math.toRadians(158);
-    public static double MAX_ANG_ACCEL = 1; //Math.toRadians(158);
+    public static double MAX_ACCEL = 30; //20; //40;
+    public static double MAX_ANG_VEL = Math.toRadians(60); //1; //Math.toRadians(158);
+    public static double MAX_ANG_ACCEL = Math.toRadians(60); //1; //Math.toRadians(158);
 
     // REMOVED FROM SampleMecanumDrive.java
     public static double LATERAL_MULTIPLIER = 1; // 1.3 OLD -> 1.2766
