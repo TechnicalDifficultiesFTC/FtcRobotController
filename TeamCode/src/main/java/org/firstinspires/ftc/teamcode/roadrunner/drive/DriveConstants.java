@@ -48,8 +48,8 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = MiscUtils.mmToInches(75 / 2); // in
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = MiscUtils.mmToInches(377.10); // in
+    public static double GEAR_RATIO = 1.05; // output (wheel) speed / input (motor) speed
+    public static double TRACK_WIDTH = 15.45; //MiscUtils.mmToInches(377.10); // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -58,9 +58,9 @@ public class DriveConstants {
      * empirically tuned.
      */
     //public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM); //0.02142;
-    public static double kA = 0; //0.002;
-    public static double kStatic = 0.07196;
+    public static double kV = 0.02109; //0.02142;
+    public static double kA = 0.002; //0.002;
+    public static double kStatic = 0.07331; //0.07196;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -71,11 +71,13 @@ public class DriveConstants {
      */
     public static double MAX_VEL = 30; //40;
     public static double MAX_ACCEL = 30; //20; //40;
-    public static double MAX_ANG_VEL = Math.toRadians(60); //1; //Math.toRadians(158);
-    public static double MAX_ANG_ACCEL = Math.toRadians(60); //1; //Math.toRadians(158);
+    //public static double MAX_ANG_VEL = Math.toRadians(60); //1; //Math.toRadians(158);
+    public static double MAX_ANG_VEL = 2.75;
+    public static double MAX_ANG_ACCEL = 2.75;
+    //public static double MAX_ANG_ACCEL = Math.toRadians(60); //1; //Math.toRadians(158);
 
     // REMOVED FROM SampleMecanumDrive.java
-    public static double LATERAL_MULTIPLIER = 1; // 1.3 OLD -> 1.2766
+    public static double LATERAL_MULTIPLIER = 1.24; // 1.3 OLD -> 1.2766
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 

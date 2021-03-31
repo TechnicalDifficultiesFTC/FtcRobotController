@@ -16,8 +16,8 @@ public class XOpMode extends LinearOpMode implements DogeOpMode {
     public void runOpMode() {
         DogeCommander commander = new DogeCommander(this);
 
-        RoadrunnerDriveBase driveBase = new RoadrunnerDriveBase(hardwareMap);
-        Vision vision = new Vision(hardwareMap, telemetry);
+        RoadrunnerDriveBase driveBase = new RoadrunnerDriveBase(hardwareMap, telemetry);
+        Vision vision = new Vision(hardwareMap);
 
         commander.registerSubsystem(driveBase);
         commander.registerSubsystem(vision);

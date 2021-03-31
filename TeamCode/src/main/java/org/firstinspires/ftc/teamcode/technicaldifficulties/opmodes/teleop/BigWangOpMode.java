@@ -15,9 +15,13 @@ public class BigWangOpMode extends OpMode {
 
     @Override
     public void init() {
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightShooterMotor"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "wobbleArmMotor"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightShooterMotor"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "wobbleArmMotor"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftShooterMotor"));
+
+        //leftEncoder.setDirection(Encoder.Direction.REVERSE);
+        //rightEncoder.setDirection(Encoder.Direction.REVERSE);
+        frontEncoder.setDirection(Encoder.Direction.REVERSE);
     }
 
     @Override

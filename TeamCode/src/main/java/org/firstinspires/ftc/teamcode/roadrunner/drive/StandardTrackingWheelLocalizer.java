@@ -35,8 +35,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double LATERAL_DISTANCE = MiscUtils.mmToInches(375.35); // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = MiscUtils.mmToInches(-193.075); // in; offset of the lateral wheel
 
-    public static double X_MULTIPLIER = 1.04709; // 1;
-    public static double Y_MULTIPLIER = 1.04793; // 1;
+    public static double X_MULTIPLIER = 1.04; // 1.04709;
+    public static double Y_MULTIPLIER = 1.04; // 1.04793;
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
@@ -47,13 +47,16 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
                 new Pose2d(FORWARD_OFFSET, MiscUtils.mmToInches(-2.787), Math.toRadians(90)) // front
         ));
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightShooterMotor"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "wobbleArmMotor"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "wobbleArmMotor"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightShooterMotor"));
+        //rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "wobbleArmMotor"));
+        //leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightShooterMotor"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftShooterMotor"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
-        leftEncoder.setDirection(Encoder.Direction.REVERSE);
-        rightEncoder.setDirection(Encoder.Direction.REVERSE);
+        //leftEncoder.setDirection(Encoder.Direction.REVERSE);
+        //rightEncoder.setDirection(Encoder.Direction.REVERSE);
+        frontEncoder.setDirection(Encoder.Direction.REVERSE);
     }
 
     public static double encoderTicksToInches(double ticks) {

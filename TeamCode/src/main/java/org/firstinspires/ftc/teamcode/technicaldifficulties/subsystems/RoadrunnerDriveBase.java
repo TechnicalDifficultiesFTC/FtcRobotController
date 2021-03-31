@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxModuleUtil;
@@ -58,6 +59,9 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.TRA
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.HEADING_PID;
 
 public class RoadrunnerDriveBase extends MecanumDrive implements Subsystem {
+
+    private Telemetry telemetry;
+    private StandardTrackingWheelLocalizer testLocalizer;
 
     private HardwareMap hardwareMap;
 
@@ -95,9 +99,10 @@ public class RoadrunnerDriveBase extends MecanumDrive implements Subsystem {
 
     private Pose2d lastPoseOnTurn;
 
-    public RoadrunnerDriveBase(HardwareMap hardwareMap) {
+    public RoadrunnerDriveBase(HardwareMap hardwareMap, Telemetry telemetry) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
         this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
     }
 
     @Override
@@ -145,7 +150,9 @@ public class RoadrunnerDriveBase extends MecanumDrive implements Subsystem {
         motors.get(0).setDirection(DcMotorSimple.Direction.REVERSE);
         motors.get(1).setDirection(DcMotorSimple.Direction.REVERSE);
 
-        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
+        testLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
+
+        setLocalizer(testLocalizer);
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
@@ -242,6 +249,10 @@ public class RoadrunnerDriveBase extends MecanumDrive implements Subsystem {
                 break;
             }
         }
+        telemetry.addData("Left", testLocalizer.getWheelPositions().get(0));
+        telemetry.addData("Right", testLocalizer.getWheelPositions().get(1));
+        telemetry.addData("Center", testLocalizer.getWheelPositions().get(2));
+        telemetry.update();
     }
 
     public Mode getOperationMode() {
