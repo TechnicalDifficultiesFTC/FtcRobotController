@@ -15,7 +15,7 @@ public class StackCountPipeline extends OpenCvPipeline {
     private static final Scalar green = new Scalar(0, 255, 0);
 
     // Detection Region
-    private static final Point topLeftAnchor = new Point(181, 98);
+    private static final Point topLeftAnchor = new Point(0, 0);
     private static final int width = 35;
     private static final int height = 25;
     private static final Point bottomRightAnchor = new Point(topLeftAnchor.x + width, topLeftAnchor.y + height);

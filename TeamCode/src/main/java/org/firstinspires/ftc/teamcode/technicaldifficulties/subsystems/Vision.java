@@ -29,6 +29,7 @@ public class Vision implements Subsystem {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         pipeline = new StackCountPipeline();
+        phoneCam.setPipeline(pipeline);
 
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
         phoneCam.openCameraDeviceAsync(() -> phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN));
@@ -36,7 +37,7 @@ public class Vision implements Subsystem {
 
     @Override
     public void periodic() {
-        telemetry.addData("Count", this::getRingCount);
+        telemetry.addData("Count", pipeline.ringCount);
         telemetry.addData("Analysis", pipeline.getAnalysis());
         telemetry.update();
     }
