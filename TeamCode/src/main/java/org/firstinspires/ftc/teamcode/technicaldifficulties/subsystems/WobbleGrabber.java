@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -15,6 +16,8 @@ public class WobbleGrabber implements Subsystem {
 
     private boolean clawOpen = false;
 
+    private TouchSensor outTouchSensor;
+    private TouchSensor inTouchSensor;
     private Servo leftServo;
     private Servo rightServo;
 
@@ -28,6 +31,8 @@ public class WobbleGrabber implements Subsystem {
 
     @Override
     public void initHardware() {
+        outTouchSensor = hardwareMap.get(TouchSensor.class, "outTouchSensor");
+        inTouchSensor = hardwareMap.get(TouchSensor.class, "inTouchServo");
         leftServo = hardwareMap.get(Servo.class, "clawLeftServo");
         rightServo = hardwareMap.get(Servo.class, "clawRightServo");
 
@@ -44,7 +49,11 @@ public class WobbleGrabber implements Subsystem {
         leftServo.setPosition(clawOpen ? 0.8 : 0.3);
         rightServo.setPosition(clawOpen ? 0.8 : 0.3);
 
-        motor.setPower(armPower);
+        double adjustedArmPower = armPower;
+        if(outTouchSensor.isPressed() && adjustedArmPower > 0) adjustedArmPower = 0;
+        if(inTouchSensor.isPressed() && adjustedArmPower < 0) adjustedArmPower = 0;
+
+        motor.setPower(adjustedArmPower);
 
         //telemetry.addData("Claw State", clawOpen ? "Open" : "Closed");
         //telemetry.addData("Motor Debug", motor.getCurrentPosition() + " | " + motor.isBusy());

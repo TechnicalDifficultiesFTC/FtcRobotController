@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems;
 
 import com.disnodeteam.dogecommander.Subsystem;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class IntakeIndexer implements Subsystem {
 
@@ -16,12 +19,14 @@ public class IntakeIndexer implements Subsystem {
     private Gamepad driverGamepad;
     private Gamepad gunnerGamepad;
 
-    private ColorSensor colorSensor;
-    private boolean colorSensorLED = false;
+    //private ColorSensor colorSensor;
+    //private boolean colorSensorLED = false;
+    private DistanceSensor distanceSensor;
 
     private Servo flickerServo;
 
     private DcMotor intakeMotor;
+    private CRServo intakeServo;
     private double intakePower = 0;
 
     public IntakeIndexer(HardwareMap hardwareMap, Telemetry telemetry, Gamepad driverGamepad, Gamepad gunnerGamepad) {
@@ -33,25 +38,30 @@ public class IntakeIndexer implements Subsystem {
 
     @Override
     public void initHardware() {
-        colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "indexerDistanceSensor");
+        //colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
         flickerServo = hardwareMap.get(Servo.class, "upperFlickerServo");
+        intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
     }
 
     @Override
     public void periodic() {
-        boolean position = colorSensor.green() >= 1000;
+        //boolean position = colorSensor.green() >= 1000;
+        boolean position = distanceSensor.getDistance(DistanceUnit.INCH) <= 1;
         if(gunnerGamepad.x) position = true;
         if(gunnerGamepad.b) position = false;
 
-        colorSensor.enableLed(colorSensorLED);
         flickerServo.setPosition(position ? 0.8 : 0.38);
         intakeMotor.setPower(intakePower);
+        if(intakePower > 0) intakeServo.setPower(1);
+        else if(intakePower < 0) intakeServo.setPower(-1);
+        else intakeServo.setPower(0);
     }
 
-    public void setColorSensorLEDEnabled(boolean enabled) {
-        colorSensorLED = enabled;
-    }
+    //public void setColorSensorLEDEnabled(boolean enabled) {
+        //colorSensorLED = enabled;
+    //}
 
     public void setIntakePower(double intakePower) {
         this.intakePower = intakePower;
