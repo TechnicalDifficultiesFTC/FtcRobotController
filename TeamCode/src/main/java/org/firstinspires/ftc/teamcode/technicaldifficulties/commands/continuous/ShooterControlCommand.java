@@ -40,10 +40,7 @@ public class ShooterControlCommand implements Command {
                 highPower = !highPower;
             }
         } else buttonPressed = false;
-
-        telemetry.addData("Power", highPower ? "HIGH" : "LOW");
-        telemetry.update();
-
+        
         shooter.setShooterPower(gamepad.left_trigger * (highPower ? 1 : 0.8));
         shooter.setFlick(gamepad.right_trigger >= 0.5);
     }

@@ -16,11 +16,12 @@ public class HerbertAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DriveBase drive = new DriveBase(hardwareMap, telemetry);
         drive.initHardware();
+
+        waitForStart();
+
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
                 .forward(50)
                 .build();
-
-        waitForStart();
 
         drive.followTrajectoryAsync(trajectoryForward);
 

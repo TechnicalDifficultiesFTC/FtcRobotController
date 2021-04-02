@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 
-@TeleOp(group = "Competition", name = "Aidan Drive")
+@TeleOp(group = "Competition", name = "Max Drive")
 public class MaxDriveOpMode extends CompetitionOpMode {
 
     @Override
