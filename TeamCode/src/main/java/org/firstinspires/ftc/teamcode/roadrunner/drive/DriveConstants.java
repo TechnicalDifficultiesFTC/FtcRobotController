@@ -49,7 +49,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = MiscUtils.mmToInches(75 / 2); // in
     public static double GEAR_RATIO = 1.05; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.45; //MiscUtils.mmToInches(377.10); // in
+    public static double TRACK_WIDTH = 14.57; //15.45; //MiscUtils.mmToInches(377.10); // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -78,8 +78,8 @@ public class DriveConstants {
 
     // REMOVED FROM SampleMecanumDrive.java
     public static double LATERAL_MULTIPLIER = 1.24; // 1.3 OLD -> 1.2766
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(15, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(15, 0, 0);
 
 
     public static double encoderTicksToInches(double ticks) {

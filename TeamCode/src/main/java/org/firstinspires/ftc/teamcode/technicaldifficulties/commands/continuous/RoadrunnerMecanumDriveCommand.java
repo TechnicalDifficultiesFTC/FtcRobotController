@@ -24,7 +24,8 @@ public class RoadrunnerMecanumDriveCommand implements Command {
 
     @Override
     public void periodic() {
-        driveBase.setWeightedDrivePower(new Pose2d(-gamepad.right_stick_y, -gamepad.right_stick_x, -gamepad.left_stick_x));
+        double multiplier = gamepad.left_bumper ? -0.5 : -1;
+        driveBase.setWeightedDrivePower(new Pose2d(gamepad.right_stick_y * multiplier, gamepad.right_stick_x * multiplier, gamepad.left_stick_x * multiplier));
     }
 
     @Override

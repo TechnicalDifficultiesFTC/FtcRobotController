@@ -4,6 +4,7 @@ import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -43,6 +44,7 @@ public class IntakeIndexer implements Subsystem {
         flickerServo = hardwareMap.get(Servo.class, "upperFlickerServo");
         intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override

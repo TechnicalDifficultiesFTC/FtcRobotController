@@ -159,7 +159,7 @@ public class RoadrunnerDriveBase extends MecanumDrive implements Subsystem {
         return new TrajectoryBuilder(startPose, velConstraint, accelConstraint);
     }
 
-    public TrajectoryBuilder tracjectoryBuilder(Pose2d startPose, boolean reversed) {
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, boolean reversed) {
         return new TrajectoryBuilder(startPose, reversed, velConstraint, accelConstraint);
     }
 
@@ -249,10 +249,13 @@ public class RoadrunnerDriveBase extends MecanumDrive implements Subsystem {
                 break;
             }
         }
-        telemetry.addData("Left", testLocalizer.getWheelPositions().get(0));
-        telemetry.addData("Right", testLocalizer.getWheelPositions().get(1));
-        telemetry.addData("Center", testLocalizer.getWheelPositions().get(2));
-        telemetry.update();
+
+        telemetry.addData("Test", clock.seconds());
+        //telemetry.update();
+        //telemetry.addData("Left", testLocalizer.getWheelPositions().get(0));
+        //telemetry.addData("Right", testLocalizer.getWheelPositions().get(1));
+        //telemetry.addData("Center", testLocalizer.getWheelPositions().get(2));
+        //telemetry.update();
     }
 
     public Mode getOperationMode() {

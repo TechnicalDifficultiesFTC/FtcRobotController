@@ -32,7 +32,7 @@ public class WobbleGrabber implements Subsystem {
     @Override
     public void initHardware() {
         outTouchSensor = hardwareMap.get(TouchSensor.class, "outTouchSensor");
-        inTouchSensor = hardwareMap.get(TouchSensor.class, "inTouchServo");
+        inTouchSensor = hardwareMap.get(TouchSensor.class, "inTouchSensor");
         leftServo = hardwareMap.get(Servo.class, "clawLeftServo");
         rightServo = hardwareMap.get(Servo.class, "clawRightServo");
 
