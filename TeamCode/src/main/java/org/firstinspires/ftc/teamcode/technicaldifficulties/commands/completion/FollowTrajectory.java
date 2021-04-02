@@ -4,16 +4,15 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.disnodeteam.dogecommander.Command;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.RoadrunnerDriveBase;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 
 public class FollowTrajectory implements Command {
 
-    private RoadrunnerDriveBase driveBase;
+    private DriveBase driveBase;
     private Telemetry telemetry;
     private Trajectory trajectory;
 
-    public FollowTrajectory(RoadrunnerDriveBase driveBase, Telemetry telemetry, Trajectory trajectory) {
+    public FollowTrajectory(DriveBase driveBase, Telemetry telemetry, Trajectory trajectory) {
         this.driveBase = driveBase;
         this.telemetry = telemetry;
         this.trajectory = trajectory;
@@ -38,7 +37,7 @@ public class FollowTrajectory implements Command {
 
     @Override
     public boolean isCompleted() {
-        return driveBase.getOperationMode() == RoadrunnerDriveBase.Mode.IDLE;
+        return driveBase.getOperationMode() == DriveBase.Mode.IDLE;
         //return !driveBase.isBusy();
     }
 }

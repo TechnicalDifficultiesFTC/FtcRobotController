@@ -56,8 +56,6 @@ public class WobbleGrabber implements Subsystem {
         motor.setPower(adjustedArmPower);
 
         //telemetry.addData("Claw State", clawOpen ? "Open" : "Closed");
-        //telemetry.addData("Motor Debug", motor.getCurrentPosition() + " | " + motor.isBusy());
-        //telemetry.update();
     }
 
     public void setClawOpen(boolean open) {

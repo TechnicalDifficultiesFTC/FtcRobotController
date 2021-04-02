@@ -3,68 +3,174 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.opmodes.auto;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.disnodeteam.dogecommander.DogeCommander;
-import com.disnodeteam.dogecommander.DogeOpMode;
+import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.completion.DriveForTime;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.completion.FollowTrajectory;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.IntakeIndexer;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.RoadrunnerDriveBase;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Vision;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.WobbleGrabber;
 
 @Autonomous(group = "10332", name = "Odometry Auto")
-public class OdometryAuto extends LinearOpMode implements DogeOpMode {
+public class OdometryAuto extends LinearOpMode {
+
+    private String autoVersion = "Unknown";
+
+    private DriveBase driveBase;
+    private WobbleGrabber wobbleGrabber;
+    private IntakeIndexer intakeIndexer;
+    private Shooter shooter;
+    private Vision vision;
+
     @Override
     public void runOpMode() throws InterruptedException {
-        //DogeCommander commander = new DogeCommander(this);
+        autoVersion = "Unknown";
 
-        //RoadrunnerDriveBase driveBase = new RoadrunnerDriveBase(hardwareMap, telemetry);
-        SampleMecanumDrive driveBase = new SampleMecanumDrive(hardwareMap);
-        //WobbleGrabber wobbleGrabber = new WobbleGrabber(hardwareMap, telemetry);
-        //IntakeIndexer intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2);
-        //Shooter shooter = new Shooter(hardwareMap, telemetry, gamepad1);
+        driveBase = new DriveBase(hardwareMap, telemetry);
+        wobbleGrabber = new WobbleGrabber(hardwareMap, telemetry);
+        intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2);
+        shooter = new Shooter(hardwareMap, telemetry, gamepad1);
+        vision = new Vision(hardwareMap);
 
-        //commander.registerSubsystem(driveBase);
-        //commander.registerSubsystem(wobbleGrabber);
-        //commander.registerSubsystem(intakeIndexer);
-        //commander.registerSubsystem(shooter);
+        driveBase.initHardware();
+        wobbleGrabber.initHardware();
+        intakeIndexer.initHardware();
+        shooter.initHardware();
+        vision.initHardware();
 
-        //commander.init();
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-        Trajectory trajectory = driveBase.trajectoryBuilder(new Pose2d())
-                .forward(50)
-                .build();
-        Trajectory trajectory1 = driveBase.trajectoryBuilder(trajectory.end())
-                .back(50)
-                .build();
-
-        //ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-        //DriveForTime.test = 0;
+        driveBase.setPoseEstimate(new Pose2d());
 
         waitForStart();
 
-        // Double Forwards
+        zeroRings(timer);
+    }
+
+    private void zeroRings(ElapsedTime timer) {
+        autoVersion = "Zero Rings";
+
+        Trajectory trajectory1 = driveBase.trajectoryBuilder(new Pose2d())
+                .splineTo(new Vector2d(58, 16), Math.toRadians(0))
+                .build();
+        followTrajectory(trajectory1);
+
+        shooter.setShooterPower(0.7);
+        waitForTime(timer, 1, shooter);
+
+        shoot(timer);
+
+        Trajectory rightEight = driveBase.trajectoryBuilder(trajectory1.end())
+                .strafeRight(8)
+                .build();
+
+        followTrajectory(rightEight);
+        shoot(timer);
+
+        followTrajectory(rightEight);
+        shoot(timer);
+
+        shooter.setShooterPower(0);
+        waitForTime(timer, 0.5, shooter);
+
+        Trajectory trajectory2 = driveBase.trajectoryBuilder(trajectory1.end().plus(new Pose2d(16, 0, 0)))
+                .strafeLeft(61)
+                .build();
+
+        wobbleGrabber.setArmPower(0.7);
+
+        followTrajectory(trajectory2);
+
+        wobbleGrabber.setClawOpen(true);
+        waitForTime(timer, 0.25, wobbleGrabber);
+
+        Trajectory trajectory3 = driveBase.trajectoryBuilder(trajectory2.end())
+                .back(5)
+                .build();
+
+        followTrajectory(trajectory3);
+
+        Trajectory trajectory4 = driveBase.trajectoryBuilder(trajectory3.end())
+                .splineTo(new Vector2d(trajectory3.end().getX() - 25, trajectory3.end().getY() + 8), Math.toRadians(180))
+                .build();
+
+        followTrajectory(trajectory4);
+
+        wobbleGrabber.setClawOpen(false);
+        waitForTime(timer, 0.25, wobbleGrabber);
+
+        Trajectory trajectory5 = driveBase.trajectoryBuilder(trajectory4.end())
+                .splineTo(new Vector2d(trajectory4.end().getX() + 24, trajectory4.end().getY()), 0)
+                .build();
+
+        followTrajectory(trajectory5);
+
+        wobbleGrabber.setClawOpen(true);
+        waitForTime(timer, 0.25, wobbleGrabber);
+
+        Trajectory trajectory6 = driveBase.trajectoryBuilder(trajectory5.end())
+                .back(5)
+                .build();
+
+        followTrajectory(trajectory6);
+
+        wobbleGrabber.setArmPower(-0.7);
+        wobbleGrabber.setClawOpen(false);
+
+        Trajectory trajectory7 = driveBase.trajectoryBuilder(trajectory6.end())
+                .splineTo(new Vector2d(trajectory6.end().getX() + 23, trajectory6.end().getY() + 18), 0)
+                .build();
+
+        followTrajectory(trajectory7);
+    }
+
+    private void oneRing(ElapsedTime timer) {
+        autoVersion = "One Ring";
+    }
+
+    private void fourRings(ElapsedTime timer) {
+        autoVersion = "Four Rings";
+    }
+
+    private void updateTelemetry() {
+        telemetry.addData("Version", autoVersion);
+    }
+
+    private void followTrajectory(Trajectory trajectory) {
         driveBase.followTrajectoryAsync(trajectory);
-        while(driveBase.isBusy() && opModeIsActive()) {
-            driveBase.update();
+        while(driveBase.getOperationMode() == DriveBase.Mode.FOLLOW_TRAJECTORY && continueRunning()) {
+            driveBase.periodic();
+            wobbleGrabber.periodic();
+            intakeIndexer.periodic();
+            shooter.periodic();
+            updateTelemetry();
         }
+    }
 
-        driveBase.followTrajectoryAsync(trajectory1);
-        while(driveBase.isBusy() && opModeIsActive()) {
-            driveBase.update();
+    private void shoot(ElapsedTime timer) {
+        shooter.setFlick(true);
+        waitForTime(timer, 0.5, shooter);
+        shooter.setFlick(false);
+        waitForTime(timer, 0.5, shooter);
+    }
+
+    private void waitForTime(ElapsedTime timer, double seconds) {
+        waitForTime(timer, seconds, new Subsystem[]{});
+    }
+
+    private void waitForTime(ElapsedTime timer, double seconds, Subsystem... subsystems) {
+        double startTime = timer.milliseconds();
+        double endTime = startTime + (seconds * 1000);
+        while(timer.milliseconds() < endTime && continueRunning()) {
+            for(Subsystem subsystem : subsystems) subsystem.periodic();
+            updateTelemetry();
         }
+    }
 
-        /*
-        commander.runCommand(new FollowTrajectory(driveBase, telemetry, trajectory));
-        commander.runCommand(new FollowTrajectory(driveBase, telemetry, trajectory1));
-        */
-
-        //commander.stop();
+    private boolean continueRunning() {
+        return opModeIsActive() && !isStopRequested();
     }
 }

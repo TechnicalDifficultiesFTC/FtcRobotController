@@ -4,7 +4,7 @@ import com.disnodeteam.dogecommander.Command;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.old.DriveBaseOld;
 
 /**
  * Created by Admin on 3/5/2021.
@@ -17,13 +17,13 @@ public class DriveForTime implements Command {
     private ElapsedTime timer;
     private Telemetry telemetry;
 
-    private DriveBase driveBase;
+    private DriveBaseOld driveBase;
     private double[] powers;
     private double seconds;
 
     private boolean finished = false;
 
-    public DriveForTime(DriveBase driveBase, ElapsedTime timer, Telemetry telemetry, double powers[], double seconds) {
+    public DriveForTime(DriveBaseOld driveBase, ElapsedTime timer, Telemetry telemetry, double powers[], double seconds) {
         this.driveBase = driveBase;
         this.timer = timer;
         this.telemetry = telemetry;
@@ -31,7 +31,7 @@ public class DriveForTime implements Command {
         this.seconds = seconds;
     }
 
-    public DriveForTime(DriveBase driveBase, ElapsedTime timer, Telemetry telemetry, double power, double seconds) {
+    public DriveForTime(DriveBaseOld driveBase, ElapsedTime timer, Telemetry telemetry, double power, double seconds) {
         this(driveBase, timer, telemetry, new double[] { -power, -power, -power, -power}, seconds);
     }
 

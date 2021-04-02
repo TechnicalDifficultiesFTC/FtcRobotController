@@ -43,6 +43,8 @@ public class Shooter implements Subsystem {
 
         leftMotor.setPower(shooterPower);
         rightMotor.setPower(shooterPower);
+
+        telemetry.addData("Shooter Power", shooterPower);
     }
 
     public void setShooterPower(double power) {

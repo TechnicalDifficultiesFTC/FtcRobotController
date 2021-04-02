@@ -37,9 +37,8 @@ public class Vision implements Subsystem {
 
     @Override
     public void periodic() {
-        //telemetry.addData("Count", pipeline.ringCount);
-        //telemetry.addData("Analysis", pipeline.getAnalysis());
-        //telemetry.update();
+        telemetry.addData("Vision Count", pipeline.ringCount);
+        telemetry.addData("Vision Analysis", pipeline.getAnalysis());
     }
 
     public RingCount getRingCount() {

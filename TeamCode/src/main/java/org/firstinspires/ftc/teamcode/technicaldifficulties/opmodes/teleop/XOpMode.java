@@ -5,8 +5,9 @@ import com.disnodeteam.dogecommander.DogeOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.RoadrunnerMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.RoadrunnerDriveBase;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.AidanMecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.MecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Vision;
 
 @TeleOp(group = "Testing", name = "X OpMode")
@@ -16,7 +17,7 @@ public class XOpMode extends LinearOpMode implements DogeOpMode {
     public void runOpMode() {
         DogeCommander commander = new DogeCommander(this);
 
-        RoadrunnerDriveBase driveBase = new RoadrunnerDriveBase(hardwareMap, telemetry);
+        DriveBase driveBase = new DriveBase(hardwareMap, telemetry);
         Vision vision = new Vision(hardwareMap);
 
         commander.registerSubsystem(driveBase);
@@ -27,7 +28,7 @@ public class XOpMode extends LinearOpMode implements DogeOpMode {
         waitForStart();
 
         commander.runCommandsParallel(
-                new RoadrunnerMecanumDriveCommand(driveBase, gamepad1)
+                new AidanMecanumDriveCommand(driveBase, gamepad1)
         );
 
         commander.stop();

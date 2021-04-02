@@ -20,9 +20,8 @@ public class IntakeIndexer implements Subsystem {
     private Gamepad driverGamepad;
     private Gamepad gunnerGamepad;
 
-    //private ColorSensor colorSensor;
-    //private boolean colorSensorLED = false;
-    private DistanceSensor distanceSensor;
+    private ColorSensor colorSensor;
+    private boolean colorSensorLED = false;
 
     private Servo flickerServo;
 
@@ -39,8 +38,7 @@ public class IntakeIndexer implements Subsystem {
 
     @Override
     public void initHardware() {
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "indexerDistanceSensor");
-        //colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
+        colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
         flickerServo = hardwareMap.get(Servo.class, "upperFlickerServo");
         intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
@@ -49,8 +47,7 @@ public class IntakeIndexer implements Subsystem {
 
     @Override
     public void periodic() {
-        //boolean position = colorSensor.green() >= 1000;
-        boolean position = distanceSensor.getDistance(DistanceUnit.INCH) <= 1;
+        boolean position = colorSensor.green() >= 1000;
         if(gunnerGamepad.x) position = true;
         if(gunnerGamepad.b) position = false;
 
@@ -59,11 +56,13 @@ public class IntakeIndexer implements Subsystem {
         if(intakePower > 0) intakeServo.setPower(1);
         else if(intakePower < 0) intakeServo.setPower(-1);
         else intakeServo.setPower(0);
+
+        telemetry.addData("Green", colorSensor.green());
     }
 
-    //public void setColorSensorLEDEnabled(boolean enabled) {
-        //colorSensorLED = enabled;
-    //}
+    public void setColorSensorLEDEnabled(boolean enabled) {
+        colorSensorLED = enabled;
+    }
 
     public void setIntakePower(double intakePower) {
         this.intakePower = intakePower;
