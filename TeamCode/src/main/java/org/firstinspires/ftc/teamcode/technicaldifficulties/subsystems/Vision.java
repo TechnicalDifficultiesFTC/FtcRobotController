@@ -19,9 +19,9 @@ public class Vision implements Subsystem {
     private OpenCvInternalCamera phoneCam;
     private StackCountPipeline pipeline;
 
-    public Vision(HardwareMap hardwareMap) {
+    public Vision(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
-        //this.telemetry = telemetry;
+        this.telemetry = telemetry;
     }
 
     @Override
@@ -39,6 +39,7 @@ public class Vision implements Subsystem {
     public void periodic() {
         telemetry.addData("Vision Count", pipeline.ringCount);
         telemetry.addData("Vision Analysis", pipeline.getAnalysis());
+        //telemetry.update();
     }
 
     public RingCount getRingCount() {

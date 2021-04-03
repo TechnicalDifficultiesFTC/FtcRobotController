@@ -37,11 +37,6 @@ public class WobbleGrabber implements Subsystem {
         rightServo = hardwareMap.get(Servo.class, "clawRightServo");
 
         motor = hardwareMap.get(DcMotor.class, "wobbleArmMotor");
-        motor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
@@ -53,7 +48,7 @@ public class WobbleGrabber implements Subsystem {
         if(outTouchSensor.isPressed() && adjustedArmPower > 0) adjustedArmPower = 0;
         if(inTouchSensor.isPressed() && adjustedArmPower < 0) adjustedArmPower = 0;
 
-        motor.setPower(adjustedArmPower);
+        motor.setPower(-adjustedArmPower);
 
         //telemetry.addData("Claw State", clawOpen ? "Open" : "Closed");
     }

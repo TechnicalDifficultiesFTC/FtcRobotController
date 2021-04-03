@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.IntakeControlCommand;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.ShooterControlCommand;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.UpdateTelemetry;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.WobbleControlCommand;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.IntakeIndexer;
@@ -38,7 +39,8 @@ public abstract class CompetitionOpMode extends LinearOpMode implements DogeOpMo
                 getMecanumDriveCommand(driveBase),
                 new WobbleControlCommand(wobbleGrabber, gamepad2),
                 new ShooterControlCommand(shooter, gamepad2, telemetry),
-                new IntakeControlCommand(intakeIndexer, gamepad1)
+                new IntakeControlCommand(intakeIndexer, gamepad1),
+                new UpdateTelemetry(telemetry)
         );
 
         commander.stop();

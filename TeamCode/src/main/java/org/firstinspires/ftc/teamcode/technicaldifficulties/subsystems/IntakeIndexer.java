@@ -42,7 +42,6 @@ public class IntakeIndexer implements Subsystem {
         flickerServo = hardwareMap.get(Servo.class, "upperFlickerServo");
         intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -53,8 +52,8 @@ public class IntakeIndexer implements Subsystem {
 
         flickerServo.setPosition(position ? 0.8 : 0.38);
         intakeMotor.setPower(intakePower);
-        if(intakePower > 0) intakeServo.setPower(1);
-        else if(intakePower < 0) intakeServo.setPower(-1);
+        if(intakePower > 0) intakeServo.setPower(-1);
+        else if(intakePower < 0) intakeServo.setPower(1);
         else intakeServo.setPower(0);
 
         telemetry.addData("Green", colorSensor.green());

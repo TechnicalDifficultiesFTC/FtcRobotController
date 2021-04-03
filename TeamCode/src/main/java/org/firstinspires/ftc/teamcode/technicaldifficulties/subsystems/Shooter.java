@@ -33,16 +33,14 @@ public class Shooter implements Subsystem {
         flickerServo = hardwareMap.get(Servo.class, "lowerFlickerServo");
         leftMotor = hardwareMap.get(DcMotor.class, "leftShooterMotor");
         rightMotor = hardwareMap.get(DcMotor.class, "rightShooterMotor");
-        leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void periodic() {
         flickerServo.setPosition(flick ? 0.7 : 0.45);
 
-        leftMotor.setPower(shooterPower);
-        rightMotor.setPower(shooterPower);
+        leftMotor.setPower(-shooterPower);
+        rightMotor.setPower(-shooterPower);
 
         telemetry.addData("Shooter Power", shooterPower);
     }

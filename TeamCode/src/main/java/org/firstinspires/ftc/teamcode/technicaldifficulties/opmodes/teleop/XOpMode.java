@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.AidanMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.MecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.UpdateTelemetry;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Vision;
 
@@ -18,7 +19,7 @@ public class XOpMode extends LinearOpMode implements DogeOpMode {
         DogeCommander commander = new DogeCommander(this);
 
         DriveBase driveBase = new DriveBase(hardwareMap, telemetry);
-        Vision vision = new Vision(hardwareMap);
+        Vision vision = new Vision(hardwareMap, telemetry);
 
         commander.registerSubsystem(driveBase);
         commander.registerSubsystem(vision);
@@ -28,7 +29,8 @@ public class XOpMode extends LinearOpMode implements DogeOpMode {
         waitForStart();
 
         commander.runCommandsParallel(
-                new AidanMecanumDriveCommand(driveBase, gamepad1)
+                new AidanMecanumDriveCommand(driveBase, gamepad1),
+                new UpdateTelemetry(telemetry)
         );
 
         commander.stop();

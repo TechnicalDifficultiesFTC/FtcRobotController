@@ -23,7 +23,7 @@ public class WobbleControlCommand implements Command {
     @Override
     public void periodic() {
         wobbleGrabber.setClawOpen(gamepad.right_bumper);
-        wobbleGrabber.setArmPower(gamepad.left_stick_y * 0.7);
+        wobbleGrabber.setArmPower(gamepad.left_stick_y * 1);
     }
 
     @Override

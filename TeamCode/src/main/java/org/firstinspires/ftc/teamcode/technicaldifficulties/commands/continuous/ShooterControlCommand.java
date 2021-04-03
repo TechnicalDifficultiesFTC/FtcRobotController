@@ -41,7 +41,7 @@ public class ShooterControlCommand implements Command {
             }
         } else buttonPressed = false;
         
-        shooter.setShooterPower(gamepad.left_trigger * (highPower ? 1 : 0.8));
+        shooter.setShooterPower(gamepad.left_trigger * (highPower ? 0.8 : 0.7));
         shooter.setFlick(gamepad.right_trigger >= 0.5);
     }
 

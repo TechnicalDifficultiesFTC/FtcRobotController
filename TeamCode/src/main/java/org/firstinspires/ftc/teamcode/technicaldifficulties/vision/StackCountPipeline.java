@@ -15,14 +15,14 @@ public class StackCountPipeline extends OpenCvPipeline {
     private static final Scalar green = new Scalar(0, 255, 0);
 
     // Detection Region
-    private static final Point topLeftAnchor = new Point(0, 0);
-    private static final int width = 35;
-    private static final int height = 25;
+    private static final Point topLeftAnchor = new Point(80, 165);
+    private static final int width = 50;
+    private static final int height = 35;
     private static final Point bottomRightAnchor = new Point(topLeftAnchor.x + width, topLeftAnchor.y + height);
 
     // Ring Thresholds
-    private static final int oneRingThreshold = 135;
-    private static final int fourRingThreshold = 150;
+    private static final int oneRingThreshold = 150;
+    private static final int fourRingThreshold = 160;
 
     private Mat region1_Cb;
     private Mat YCrCb = new Mat();
