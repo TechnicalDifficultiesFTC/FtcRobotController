@@ -21,8 +21,8 @@ public class StackCountPipeline extends OpenCvPipeline {
     private static final Point bottomRightAnchor = new Point(topLeftAnchor.x + width, topLeftAnchor.y + height);
 
     // Ring Thresholds
-    private static final int oneRingThreshold = 150;
-    private static final int fourRingThreshold = 160;
+    private static final int oneRingThreshold = 135; // 150
+    private static final int fourRingThreshold = 140; // 160
 
     private Mat region1_Cb;
     private Mat YCrCb = new Mat();

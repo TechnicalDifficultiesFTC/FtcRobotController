@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.opmodes.teleop;
 
 import com.disnodeteam.dogecommander.DogeCommander;
 import com.disnodeteam.dogecommander.DogeOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,7 +16,8 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.WobbleGrabber;
 
-@TeleOp(group = "Testing", name = "Testing OpMode")
+@TeleOp(group = "Tuning", name = "General Testing")
+@Disabled
 public class TestingOpMode extends LinearOpMode implements DogeOpMode {
 
     @Override
@@ -40,7 +42,7 @@ public class TestingOpMode extends LinearOpMode implements DogeOpMode {
                 new AidanMecanumDriveCommand(driveBase, gamepad1),
                 new WobbleControlCommand(wobbleGrabber, gamepad2),
                 new ShooterControlCommand(shooter, gamepad2, telemetry),
-                new IntakeControlCommand(intakeIndexer, gamepad1)
+                new IntakeControlCommand(intakeIndexer, gamepad1, gamepad2)
         );
 
         commander.stop();

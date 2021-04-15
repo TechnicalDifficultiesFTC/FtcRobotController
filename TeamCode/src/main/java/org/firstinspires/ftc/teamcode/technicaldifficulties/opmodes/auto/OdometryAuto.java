@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.disnodeteam.dogecommander.Subsystem;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Vision;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.WobbleGrabber;
 
-@Autonomous(group = "10332", name = "Odometry Auto")
+@Autonomous(group = "Competition", name = "Odometry Auto")
 public class OdometryAuto extends LinearOpMode {
 
     private String autoVersion = "Unknown";

@@ -1,13 +1,15 @@
 package org.firstinspires.ftc.teamcode.technicaldifficulties.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 
-@TeleOp(group = "Testing", name = "Big Wang OpMode")
-public class BigWangOpMode extends OpMode {
+@TeleOp(group = "Tuning", name = "Encoder Tester")
+@Disabled
+public class EncoderTesterOpMode extends OpMode {
 
     private Encoder leftEncoder;
     private Encoder rightEncoder;

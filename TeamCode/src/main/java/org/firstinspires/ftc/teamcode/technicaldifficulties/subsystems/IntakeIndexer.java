@@ -50,7 +50,7 @@ public class IntakeIndexer implements Subsystem {
         if(gunnerGamepad.x) position = true;
         if(gunnerGamepad.b) position = false;
 
-        flickerServo.setPosition(position ? 0.8 : 0.38);
+        flickerServo.setPosition(position ? 0.6 : 0.39);
         intakeMotor.setPower(intakePower);
         if(intakePower > 0) intakeServo.setPower(-1);
         else if(intakePower < 0) intakeServo.setPower(1);

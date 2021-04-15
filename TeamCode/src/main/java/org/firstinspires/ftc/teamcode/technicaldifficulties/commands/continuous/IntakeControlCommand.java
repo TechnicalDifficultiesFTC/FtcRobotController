@@ -12,11 +12,13 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.IntakeInd
 public class IntakeControlCommand implements Command {
 
     private IntakeIndexer intakeIndexer;
-    private Gamepad gamepad;
+    private Gamepad driverGamepad;
+    private Gamepad gunnerGamepad;
 
-    public IntakeControlCommand(IntakeIndexer intakeIndexer, Gamepad gamepad) {
+    public IntakeControlCommand(IntakeIndexer intakeIndexer, Gamepad driverGamepad, Gamepad gunnerGamepad) {
         this.intakeIndexer = intakeIndexer;
-        this.gamepad = gamepad;
+        this.driverGamepad = driverGamepad;
+        this.gunnerGamepad = gunnerGamepad;
     }
 
     @Override
@@ -26,8 +28,8 @@ public class IntakeControlCommand implements Command {
 
     @Override
     public void periodic() {
-        if(gamepad.right_trigger >= 0.5) intakeIndexer.setIntakePower(1);
-        else if(gamepad.left_trigger >= 0.5) intakeIndexer.setIntakePower(-1);
+        if(driverGamepad.right_trigger >= 0.5 || gunnerGamepad.right_stick_y <= -0.5) intakeIndexer.setIntakePower(1);
+        else if(driverGamepad.left_trigger >= 0.5 || gunnerGamepad.right_stick_y >= 0.5) intakeIndexer.setIntakePower(-1);
         else intakeIndexer.setIntakePower(0);
     }
 

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.opmodes.auto;
 import com.disnodeteam.dogecommander.DogeCommander;
 import com.disnodeteam.dogecommander.DogeOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -16,7 +17,8 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.WobbleGra
  * Created by Admin on 3/5/2021.
  */
 
-@Autonomous(group = "10332", name = "Park Auto")
+@Autonomous(group = "Competition", name = "Park Auto")
+@Disabled
 public class ParkAuto extends LinearOpMode implements DogeOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

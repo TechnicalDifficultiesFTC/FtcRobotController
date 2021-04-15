@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.Vision;
 
-@TeleOp(group = "Testing", name = "X OpMode")
-public class XOpMode extends LinearOpMode implements DogeOpMode {
+@TeleOp(group = "Tuning", name = "Vision Tuner")
+public class VisionTunerOpMode extends LinearOpMode implements DogeOpMode {
 
     @Override
     public void runOpMode() {
