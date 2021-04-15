@@ -65,181 +65,111 @@ public class OdometryAuto extends LinearOpMode {
     private void zeroRings(ElapsedTime timer) {
         autoVersion = "Zero Rings";
 
-        Trajectory trajectory1 = driveBase.trajectoryBuilder(new Pose2d())
-                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.7))
-                .splineToLinearHeading(new Pose2d(20, -13, 0), 0)
-                .splineToLinearHeading(new Pose2d(58, -13, 0), 0)
-                .build();
-        followTrajectory(trajectory1);
+        // Shoot powershots
+        Pose2d powershotsEndPose = runPowershots(timer, new Pose2d());
 
-
-        shoot(timer);
-
-        Trajectory rightEight = driveBase.trajectoryBuilder(trajectory1.end())
-                .strafeRight(8)
-                .build();
-
-        followTrajectory(rightEight);
-        waitForTime(timer, 1);
-        shoot(timer);
-
-        Trajectory rightTwo = driveBase.trajectoryBuilder(rightEight.end())
-                .strafeRight(8)
-                .build();
-
-        followTrajectory(rightTwo);
-        waitForTime(timer, 1);
-        shoot(timer);
-
-        Trajectory trajectory2 = driveBase.trajectoryBuilder(rightTwo.end())
+        // Place first wobble
+        Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose)
                 .addTemporalMarker(1, () -> shooter.setShooterPower(0))
+                .addDisplacementMarker(30, () -> wobbleGrabber.setArmPower(0.7))
                 .strafeLeft(58)
                 .build();
-
-        wobbleGrabber.setArmPower(0.7);
-
-        followTrajectory(trajectory2);
+        followTrajectory(placeWobbleTrajectory);
 
         wobbleGrabber.setClawOpen(true);
         waitForTime(timer, 0.25, wobbleGrabber);
 
-        Trajectory trajectory3 = driveBase.trajectoryBuilder(trajectory2.end())
-                .splineToLinearHeading(new Pose2d(trajectory2.end().getX() - 15, trajectory2.end().getY(), 0), 0)
-                .splineToLinearHeading(new Pose2d(trajectory2.end().getX() - 15, trajectory2.end().getY() - 18, 0), 0)
-                .splineToLinearHeading(new Pose2d(trajectory2.end().getX() + 10, trajectory2.end().getY() - 18, 0), 0)
+        // Move to parking line
+        Trajectory parkingLineTrajectory = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
+                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY(), 0), 0)
+                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY() - 18, 0), 0)
+                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() + 10, placeWobbleTrajectory.end().getY() - 18, 0), 0)
                 .build();
-
-        followTrajectory(trajectory3);
-
-        /*
-        Trajectory trajectory4 = driveBase.trajectoryBuilder(trajectory2.end())
-                .splineToConstantHeading(new Vector2d(trajectory2.end().getX() - 10, trajectory2.end().getY()), 0)
-                .splineToSplineHeading(new Pose2d(trajectory2.end().getX() - 15, trajectory2.end().getY(), Math.toRadians(-90)), 0)
-                .splineToSplineHeading(new Pose2d(trajectory2.end().getX() - 20, trajectory2.end().getY(), Math.toRadians(-180)), 0)
-                .splineToSplineHeading(new Pose2d(trajectory2.end().getX() - 30, trajectory2.end().getY() - 5, Math.toRadians(-180)), 0)
-                .build();
-
-        followTrajectory(trajectory4);
-
-        wobbleGrabber.setClawOpen(false);
-        waitForTime(timer, 0.25, wobbleGrabber);
-        wobbleGrabber.setArmPower(-0.7);
-
-        Trajectory trajectory5 = driveBase.trajectoryBuilder(trajectory4.end())
-                .splineToLinearHeading(new Pose2d(trajectory4.end().getX() + 24, trajectory4.end().getY() + 2, 0), 0)
-                .addDisplacementMarker(15, () -> wobbleGrabber.setArmPower(0.7))
-                .build();
-
-        followTrajectory(trajectory5);
-
-        wobbleGrabber.setClawOpen(true);
-        waitForTime(timer, 0.25, wobbleGrabber);
-
-        Trajectory trajectory7 = driveBase.trajectoryBuilder(trajectory5.end())
-                .splineToLinearHeading(new Pose2d(trajectory5.end().getX() - 5, trajectory5.end().getY(), 0), 0)
-                .addDisplacementMarker(5, () -> wobbleGrabber.setArmPower(-0.7))
-                .splineToLinearHeading(new Pose2d(trajectory5.end().getX() - 5, trajectory5.end().getY() - 10, 0), 0)
-                .splineToLinearHeading(new Pose2d(trajectory5.end().getX() + 23, trajectory5.end().getY() - 18, 0), 0)
-                .build();
-
-        followTrajectory(trajectory7);
-         */
+        followTrajectory(parkingLineTrajectory);
     }
 
     private void oneRing(ElapsedTime timer) {
         autoVersion = "One Ring";
 
-        Trajectory trajectory1 = driveBase.trajectoryBuilder(new Pose2d())
-                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.7))
-                .splineToLinearHeading(new Pose2d(20, -13, 0), 0)
-                .splineToLinearHeading(new Pose2d(58, -13, 0), 0)
-                .build();
-        followTrajectory(trajectory1);
+        // Shoot powershots
+        Pose2d powershotsEndPose = runPowershots(timer, new Pose2d());
 
-
-        shoot(timer);
-
-        Trajectory rightEight = driveBase.trajectoryBuilder(trajectory1.end())
-                .strafeRight(8)
-                .build();
-
-        followTrajectory(rightEight);
-        waitForTime(timer, 1);
-        shoot(timer);
-
-        Trajectory rightTwo = driveBase.trajectoryBuilder(rightEight.end())
-                .strafeRight(8)
-                .build();
-
-        followTrajectory(rightTwo);
-        waitForTime(timer, 1);
-        shoot(timer);
-
-        Trajectory trajectory2 = driveBase.trajectoryBuilder(rightTwo.end())
+        // Place first wobble
+        Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose)
                 .addTemporalMarker(1, () -> shooter.setShooterPower(0))
-                .splineToLinearHeading(new Pose2d(rightTwo.end().getX() + 22, rightTwo.end().getY() + 35, 0), 0)
+                .addDisplacementMarker(30, () -> wobbleGrabber.setArmPower(0.7))
+                .splineToLinearHeading(new Pose2d(powershotsEndPose.getX() + 22, powershotsEndPose.getY() + 35, 0), 0)
                 .build();
-
-        wobbleGrabber.setArmPower(0.7);
-
-        followTrajectory(trajectory2);
+        followTrajectory(placeWobbleTrajectory);
 
         wobbleGrabber.setClawOpen(true);
         waitForTime(timer, 0.25, wobbleGrabber);
 
-        Trajectory trajectory3 = driveBase.trajectoryBuilder(trajectory2.end())
+        // Move to parking line
+        Trajectory parkingLineTrajectory = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
                 .back(10)
                 .build();
-
-        followTrajectory(trajectory3);
+        followTrajectory(parkingLineTrajectory);
     }
 
     private void fourRings(ElapsedTime timer) {
         autoVersion = "Four Rings";
 
-        Trajectory trajectory1 = driveBase.trajectoryBuilder(new Pose2d())
-                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.7))
-                .splineToLinearHeading(new Pose2d(20, -13, 0), 0)
-                .splineToLinearHeading(new Pose2d(58, -13, 0), 0)
-                .build();
-        followTrajectory(trajectory1);
+        // Shoot powershots
+        Pose2d powershotsEndPose = runPowershots(timer, new Pose2d());
 
-
-        shoot(timer);
-
-        Trajectory rightEight = driveBase.trajectoryBuilder(trajectory1.end())
-                .strafeRight(8)
-                .build();
-
-        followTrajectory(rightEight);
-        waitForTime(timer, 1);
-        shoot(timer);
-
-        Trajectory rightTwo = driveBase.trajectoryBuilder(rightEight.end())
-                .strafeRight(8)
-                .build();
-
-        followTrajectory(rightTwo);
-        waitForTime(timer, 1);
-        shoot(timer);
-
-        Trajectory trajectory2 = driveBase.trajectoryBuilder(rightTwo.end())
+        // Place first wobble
+        Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose)
                 .addTemporalMarker(1, () -> shooter.setShooterPower(0))
-                .splineToLinearHeading(new Pose2d(rightTwo.end().getX() + 44, rightTwo.end().getY() + 57, 0), 0)
+                .addDisplacementMarker(50, () -> wobbleGrabber.setArmPower(0.7))
+                .splineToLinearHeading(new Pose2d(powershotsEndPose.getX() + 44, powershotsEndPose.getY() + 57, 0), 0)
                 .build();
-
-        wobbleGrabber.setArmPower(0.7);
-
-        followTrajectory(trajectory2);
+        followTrajectory(placeWobbleTrajectory);
 
         wobbleGrabber.setClawOpen(true);
         waitForTime(timer, 0.25, wobbleGrabber);
 
-        Trajectory trajectory3 = driveBase.trajectoryBuilder(trajectory2.end())
+        // Move to parking line
+        Trajectory parkingLineTrajectory = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
                 .back(34)
                 .build();
+        followTrajectory(parkingLineTrajectory);
+    }
 
-        followTrajectory(trajectory3);
+    private Pose2d runPowershots(ElapsedTime timer, Pose2d startPose) {
+        
+        // From spawn to the first powershot
+        Trajectory fromSpawnTrajectory = driveBase.trajectoryBuilder(startPose)
+                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.7))
+                .splineToLinearHeading(new Pose2d(20, -13, 0), 0)
+                .splineToLinearHeading(new Pose2d(58, -13, 0), 0)
+                .build();
+        followTrajectory(fromSpawnTrajectory);
+
+        // Shoot once
+        shoot(timer);
+
+        // Strafe for the second powershot
+        Trajectory toSecondTrajectory = driveBase.trajectoryBuilder(fromSpawnTrajectory.end())
+                .strafeRight(8)
+                .build();
+        followTrajectory(toSecondTrajectory);
+
+        // Shoot once
+        waitForTime(timer, 1);
+        shoot(timer);
+
+        // Strafe for the third powershot
+        Trajectory toThirdTrajectory = driveBase.trajectoryBuilder(toSecondTrajectory.end())
+                .strafeRight(8)
+                .build();
+        followTrajectory(toThirdTrajectory);
+
+        // Shoot once
+        waitForTime(timer, 1);
+        shoot(timer);
+
+        return toThirdTrajectory.end();
     }
 
     private void updateTelemetry() {
