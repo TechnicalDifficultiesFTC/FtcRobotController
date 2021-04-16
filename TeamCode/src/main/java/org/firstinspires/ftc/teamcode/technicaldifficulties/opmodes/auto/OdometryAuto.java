@@ -80,6 +80,7 @@ public class OdometryAuto extends LinearOpMode {
         wobbleGrabber.setClawOpen(true);
         waitForTime(timer, 0.25, wobbleGrabber);
 
+        /*
         // Move to parking line
         Trajectory parkingLineTrajectory = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
                 .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY(), 0), 0)
@@ -87,6 +88,18 @@ public class OdometryAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() + 10, placeWobbleTrajectory.end().getY() - 18, 0), 0)
                 .build();
         followTrajectory(parkingLineTrajectory);
+         */
+
+        // Get second wobble
+        Trajectory secondWobbleTrajectoryA = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
+                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY(), 0), 0)
+                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY() - 24, 0), 0)
+                //.splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 25, placeWobbleTrajectory.end().getY() - 24, 180), 0)
+                //.splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 25, placeWobbleTrajectory.end().getY() - 3, 180), 0)
+                .splineToSplineHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 25, placeWobbleTrajectory.end().getY() - 6, 180), 0)
+                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 35, placeWobbleTrajectory.end().getY() - 6, 180), 0)
+                .build();
+        followTrajectory(secondWobbleTrajectoryA);
     }
 
     private void oneRing(ElapsedTime timer) {
@@ -181,6 +194,17 @@ public class OdometryAuto extends LinearOpMode {
     private void followTrajectory(Trajectory trajectory) {
         driveBase.followTrajectoryAsync(trajectory);
         while(driveBase.getOperationMode() == DriveBase.Mode.FOLLOW_TRAJECTORY && continueRunning()) {
+            driveBase.periodic();
+            wobbleGrabber.periodic();
+            intakeIndexer.periodic();
+            shooter.periodic();
+            updateTelemetry();
+        }
+    }
+
+    private void turn(double angle) {
+        driveBase.turnAsync(angle);
+        while(driveBase.getOperationMode() == DriveBase.Mode.TURN && continueRunning()) {
             driveBase.periodic();
             wobbleGrabber.periodic();
             intakeIndexer.periodic();

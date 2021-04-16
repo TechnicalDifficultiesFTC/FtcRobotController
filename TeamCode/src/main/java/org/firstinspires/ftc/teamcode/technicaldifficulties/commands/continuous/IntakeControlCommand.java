@@ -15,6 +15,8 @@ public class IntakeControlCommand implements Command {
     private Gamepad driverGamepad;
     private Gamepad gunnerGamepad;
 
+    private boolean sideArmButtonPressed;
+
     public IntakeControlCommand(IntakeIndexer intakeIndexer, Gamepad driverGamepad, Gamepad gunnerGamepad) {
         this.intakeIndexer = intakeIndexer;
         this.driverGamepad = driverGamepad;
@@ -24,6 +26,7 @@ public class IntakeControlCommand implements Command {
     @Override
     public void start() {
         intakeIndexer.setIntakePower(0);
+        sideArmButtonPressed = false;
     }
 
     @Override
@@ -31,6 +34,13 @@ public class IntakeControlCommand implements Command {
         if(driverGamepad.right_trigger >= 0.5 || gunnerGamepad.right_stick_y <= -0.5) intakeIndexer.setIntakePower(1);
         else if(driverGamepad.left_trigger >= 0.5 || gunnerGamepad.right_stick_y >= 0.5) intakeIndexer.setIntakePower(-1);
         else intakeIndexer.setIntakePower(0);
+
+        if(driverGamepad.dpad_right || gunnerGamepad.dpad_right) {
+            if(!sideArmButtonPressed) {
+                intakeIndexer.toggleSideArmState();
+                sideArmButtonPressed = true;
+            }
+        } else sideArmButtonPressed = false;
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(group = "Tuning", name = "Flicker Tuning")
-@Disabled
 public class FlickerTuningOpMode extends OpMode {
 
     private Servo servo;
@@ -16,7 +15,7 @@ public class FlickerTuningOpMode extends OpMode {
     @Override
     public void init() {
         servoPosition = 0;
-        servo = hardwareMap.get(Servo.class, "lowerFlickerServo");
+        servo = hardwareMap.get(Servo.class, "sideArmServo");
     }
 
     @Override

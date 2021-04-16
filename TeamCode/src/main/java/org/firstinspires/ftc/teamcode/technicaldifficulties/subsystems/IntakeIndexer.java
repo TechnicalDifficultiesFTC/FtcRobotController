@@ -25,6 +25,9 @@ public class IntakeIndexer implements Subsystem {
 
     private Servo flickerServo;
 
+    private Servo sideArmServo;
+    private boolean sideArmState;
+
     private DcMotor intakeMotor;
     private CRServo intakeServo;
     private double intakePower = 0;
@@ -41,6 +44,7 @@ public class IntakeIndexer implements Subsystem {
         colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
         flickerServo = hardwareMap.get(Servo.class, "upperFlickerServo");
         intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
+        sideArmServo = hardwareMap.get(Servo.class, "sideArmServo");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
     }
 
@@ -56,7 +60,10 @@ public class IntakeIndexer implements Subsystem {
         else if(intakePower < 0) intakeServo.setPower(1);
         else intakeServo.setPower(0);
 
+        sideArmServo.setPosition(sideArmState ? 0.22 : 0.7);
+
         telemetry.addData("Green", colorSensor.green());
+        telemetry.addData("Side Arm State", sideArmState);
     }
 
     public void setColorSensorLEDEnabled(boolean enabled) {
@@ -65,5 +72,13 @@ public class IntakeIndexer implements Subsystem {
 
     public void setIntakePower(double intakePower) {
         this.intakePower = intakePower;
+    }
+
+    public void setSideArmState(boolean state) {
+        this.sideArmState = state;
+    }
+
+    public void toggleSideArmState() {
+        sideArmState = !sideArmState;
     }
 }
