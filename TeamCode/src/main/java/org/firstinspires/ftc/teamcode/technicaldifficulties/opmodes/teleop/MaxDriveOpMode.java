@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.technicaldifficulties.commands.continuous.
 import org.firstinspires.ftc.teamcode.technicaldifficulties.subsystems.DriveBase;
 
 @TeleOp(group = "Competition", name = "Max Drive")
-@Disabled
 public class MaxDriveOpMode extends CompetitionOpMode {
 
     @Override

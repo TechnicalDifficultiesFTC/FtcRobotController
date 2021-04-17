@@ -12,17 +12,17 @@ public class MaxMecanumDriveCommand extends MecanumDriveCommand {
 
     @Override
     protected double getForwardStick() {
-        return gamepad.left_stick_y;
+        return gamepad.right_stick_y;
     }
 
     @Override
     protected double getStrafeStick() {
-        return gamepad.left_stick_x;
+        return gamepad.right_stick_x;
     }
 
     @Override
     protected double getTurnStick() {
-        return gamepad.right_stick_x;
+        return gamepad.left_stick_x;
     }
 
     @Override

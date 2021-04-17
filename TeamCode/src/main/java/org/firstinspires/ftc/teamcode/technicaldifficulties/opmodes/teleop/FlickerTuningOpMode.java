@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.technicaldifficulties.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(group = "Tuning", name = "Flicker Tuning")
 public class FlickerTuningOpMode extends OpMode {
 
+    private ColorSensor colorSensor;
     private Servo servo;
     private boolean buttonPressed;
     private double servoPosition;
@@ -15,7 +17,8 @@ public class FlickerTuningOpMode extends OpMode {
     @Override
     public void init() {
         servoPosition = 0;
-        servo = hardwareMap.get(Servo.class, "sideArmServo");
+        servo = hardwareMap.get(Servo.class, "clawRightServo");
+        colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
     }
 
     @Override
@@ -50,6 +53,7 @@ public class FlickerTuningOpMode extends OpMode {
 
         servo.setPosition(servoPosition);
 
+        telemetry.addData("Color Sensor Green", colorSensor.green());
         telemetry.addData("Servo Position", servoPosition);
         telemetry.addData("Button Pressed", buttonPressed);
         telemetry.update();

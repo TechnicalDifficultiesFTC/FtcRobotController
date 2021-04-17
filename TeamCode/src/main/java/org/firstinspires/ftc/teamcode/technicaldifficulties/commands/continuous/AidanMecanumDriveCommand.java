@@ -12,6 +12,7 @@ public class AidanMecanumDriveCommand extends MecanumDriveCommand {
 
     @Override
     protected double getForwardStick() {
+        if(Math.abs(gamepad.right_stick_y) <= 0.2) return 0;
         return gamepad.right_stick_y;
     }
 

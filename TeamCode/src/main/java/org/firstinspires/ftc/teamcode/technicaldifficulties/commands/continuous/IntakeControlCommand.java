@@ -35,12 +35,15 @@ public class IntakeControlCommand implements Command {
         else if(driverGamepad.left_trigger >= 0.5 || gunnerGamepad.right_stick_y >= 0.5) intakeIndexer.setIntakePower(-1);
         else intakeIndexer.setIntakePower(0);
 
-        if(driverGamepad.dpad_right || gunnerGamepad.dpad_right) {
+        if(driverGamepad.dpad_right ) {
             if(!sideArmButtonPressed) {
                 intakeIndexer.toggleSideArmState();
                 sideArmButtonPressed = true;
             }
         } else sideArmButtonPressed = false;
+
+        if(gunnerGamepad.dpad_right) intakeIndexer.setSideArmState(true);
+        else if(gunnerGamepad.dpad_left) intakeIndexer.setSideArmState(false);
     }
 
     @Override

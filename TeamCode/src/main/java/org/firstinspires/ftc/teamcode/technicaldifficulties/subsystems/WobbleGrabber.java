@@ -41,8 +41,8 @@ public class WobbleGrabber implements Subsystem {
 
     @Override
     public void periodic() {
-        leftServo.setPosition(clawOpen ? 0.8 : 0.3);
-        rightServo.setPosition(clawOpen ? 0.8 : 0.3);
+        leftServo.setPosition(clawOpen ? 0.9 : 0.1);
+        rightServo.setPosition(clawOpen ? 0.9 : 0.1);
 
         double adjustedArmPower = armPower;
         if(outTouchSensor.isPressed() && adjustedArmPower > 0) adjustedArmPower = 0;
