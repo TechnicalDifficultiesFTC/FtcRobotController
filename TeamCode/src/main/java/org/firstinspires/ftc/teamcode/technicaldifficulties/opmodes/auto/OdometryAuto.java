@@ -72,7 +72,7 @@ public class OdometryAuto extends LinearOpMode {
         // Place first wobble
         Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose)
                 .addTemporalMarker(1, () -> shooter.setShooterPower(0))
-                .addDisplacementMarker(30, () -> wobbleGrabber.setArmPower(0.7))
+                .addDisplacementMarker(15, () -> wobbleGrabber.setArmPower(0.7))
                 .strafeLeft(58)
                 .build();
         followTrajectory(placeWobbleTrajectory);
@@ -80,7 +80,6 @@ public class OdometryAuto extends LinearOpMode {
         wobbleGrabber.setClawOpen(true);
         waitForTime(timer, 0.25, wobbleGrabber);
 
-        /*
         // Move to parking line
         Trajectory parkingLineTrajectory = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
                 .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY(), 0), 0)
@@ -88,18 +87,6 @@ public class OdometryAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() + 10, placeWobbleTrajectory.end().getY() - 18, 0), 0)
                 .build();
         followTrajectory(parkingLineTrajectory);
-         */
-
-        // Get second wobble
-        Trajectory secondWobbleTrajectoryA = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
-                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY(), 0), 0)
-                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 15, placeWobbleTrajectory.end().getY() - 24, 0), 0)
-                //.splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 25, placeWobbleTrajectory.end().getY() - 24, 180), 0)
-                //.splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 25, placeWobbleTrajectory.end().getY() - 3, 180), 0)
-                .splineToSplineHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 25, placeWobbleTrajectory.end().getY() - 6, 180), 0)
-                .splineToLinearHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 35, placeWobbleTrajectory.end().getY() - 6, 180), 0)
-                .build();
-        followTrajectory(secondWobbleTrajectoryA);
     }
 
     private void oneRing(ElapsedTime timer) {
@@ -111,7 +98,7 @@ public class OdometryAuto extends LinearOpMode {
         // Place first wobble
         Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose)
                 .addTemporalMarker(1, () -> shooter.setShooterPower(0))
-                .addDisplacementMarker(30, () -> wobbleGrabber.setArmPower(0.7))
+                .addDisplacementMarker(15, () -> wobbleGrabber.setArmPower(0.7))
                 .splineToLinearHeading(new Pose2d(powershotsEndPose.getX() + 22, powershotsEndPose.getY() + 35, 0), 0)
                 .build();
         followTrajectory(placeWobbleTrajectory);
@@ -135,7 +122,7 @@ public class OdometryAuto extends LinearOpMode {
         // Place first wobble
         Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose)
                 .addTemporalMarker(1, () -> shooter.setShooterPower(0))
-                .addDisplacementMarker(50, () -> wobbleGrabber.setArmPower(0.7))
+                .addDisplacementMarker(35, () -> wobbleGrabber.setArmPower(0.7))
                 .splineToLinearHeading(new Pose2d(powershotsEndPose.getX() + 44, powershotsEndPose.getY() + 57, 0), 0)
                 .build();
         followTrajectory(placeWobbleTrajectory);

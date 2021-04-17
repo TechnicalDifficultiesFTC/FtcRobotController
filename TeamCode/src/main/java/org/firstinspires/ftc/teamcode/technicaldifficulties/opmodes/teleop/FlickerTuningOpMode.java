@@ -11,18 +11,30 @@ public class FlickerTuningOpMode extends OpMode {
 
     private ColorSensor colorSensor;
     private Servo servo;
+    private Servo servoDos;
     private boolean buttonPressed;
     private double servoPosition;
+
+    private boolean togglePressed;
+    private boolean useDos;
 
     @Override
     public void init() {
         servoPosition = 0;
         servo = hardwareMap.get(Servo.class, "clawRightServo");
+        servoDos = hardwareMap.get(Servo.class, "clawLeftServo");
         colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
     }
 
     @Override
     public void loop() {
+
+        if(gamepad1.right_bumper) {
+            if(!buttonPressed) {
+                useDos = !useDos;
+                togglePressed = true;
+            }
+        } else togglePressed = false;
 
         if(gamepad1.a) {
             if(!buttonPressed) {
@@ -51,11 +63,14 @@ public class FlickerTuningOpMode extends OpMode {
         if(servoPosition < 0) servoPosition = 0;
         if(servoPosition > 1) servoPosition = 1;
 
-        servo.setPosition(servoPosition);
+        if(useDos) servoDos.setPosition(servoPosition);
+        else servo.setPosition(servoPosition);
 
         telemetry.addData("Color Sensor Green", colorSensor.green());
         telemetry.addData("Servo Position", servoPosition);
         telemetry.addData("Button Pressed", buttonPressed);
+        telemetry.addData("Servo Used", useDos ? "One" : "Two");
+        telemetry.addData("Toggle Pressed", togglePressed);
         telemetry.update();
     }
 }
