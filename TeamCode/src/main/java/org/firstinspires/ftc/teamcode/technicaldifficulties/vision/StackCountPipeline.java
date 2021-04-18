@@ -22,7 +22,7 @@ public class StackCountPipeline extends OpenCvPipeline {
 
     // Ring Thresholds
     private static final int oneRingThreshold = 135; // 150
-    private static final int fourRingThreshold = 140; // 160
+    private static final int fourRingThreshold = 145; // 160
 
     private Mat region1_Cb;
     private Mat YCrCb = new Mat();

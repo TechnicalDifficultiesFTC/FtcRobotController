@@ -36,7 +36,7 @@ public class HerbertAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         autoVersion = "Unknown";
 
-        driveBase = new DriveBase(hardwareMap, telemetry);
+        driveBase = new DriveBase(hardwareMap, telemetry, true);
         wobbleGrabber = new WobbleGrabber(hardwareMap, telemetry);
         intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2);
         shooter = new Shooter(hardwareMap, telemetry, gamepad1);

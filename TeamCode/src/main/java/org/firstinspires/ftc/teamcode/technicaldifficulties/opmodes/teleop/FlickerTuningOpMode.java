@@ -21,7 +21,7 @@ public class FlickerTuningOpMode extends OpMode {
     @Override
     public void init() {
         servoPosition = 0;
-        servo = hardwareMap.get(Servo.class, "clawRightServo");
+        servo = hardwareMap.get(Servo.class, "sideArmServo");
         servoDos = hardwareMap.get(Servo.class, "clawLeftServo");
         colorSensor = hardwareMap.get(ColorSensor.class, "indexerColorSensor");
     }

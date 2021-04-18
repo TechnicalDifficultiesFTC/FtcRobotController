@@ -41,9 +41,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.MAX_ACCEL_AUTO;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.MAX_ANG_ACCEL;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.MAX_ANG_VEL;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.MAX_VEL_AUTO;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.TRACK_WIDTH;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.encoderTicksToInches;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.kA;
@@ -94,10 +96,13 @@ public class DriveBase extends MecanumDrive implements Subsystem {
 
     private Pose2d lastPoseOnTurn;
 
-    public DriveBase(HardwareMap hardwareMap, Telemetry telemetry) {
+    private boolean auto;
+
+    public DriveBase(HardwareMap hardwareMap, Telemetry telemetry, boolean auto) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
+        this.auto = auto;
     }
 
     @Override
@@ -111,9 +116,9 @@ public class DriveBase extends MecanumDrive implements Subsystem {
 
         velConstraint = new MinVelocityConstraint(Arrays.asList(
                 new AngularVelocityConstraint(MAX_ANG_VEL),
-                new MecanumVelocityConstraint(MAX_VEL, TRACK_WIDTH)
+                new MecanumVelocityConstraint(auto ? MAX_VEL_AUTO : MAX_VEL, TRACK_WIDTH)
         ));
-        accelConstraint = new ProfileAccelerationConstraint(MAX_ACCEL);
+        accelConstraint = new ProfileAccelerationConstraint(auto ? MAX_ACCEL_AUTO : MAX_ACCEL);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
                 new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
 

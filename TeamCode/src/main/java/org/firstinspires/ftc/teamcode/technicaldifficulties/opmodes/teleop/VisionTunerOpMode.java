@@ -18,7 +18,7 @@ public class VisionTunerOpMode extends LinearOpMode implements DogeOpMode {
     public void runOpMode() {
         DogeCommander commander = new DogeCommander(this);
 
-        DriveBase driveBase = new DriveBase(hardwareMap, telemetry);
+        DriveBase driveBase = new DriveBase(hardwareMap, telemetry, false);
         Vision vision = new Vision(hardwareMap, telemetry);
 
         commander.registerSubsystem(driveBase);

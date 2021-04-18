@@ -60,7 +60,8 @@ public class IntakeIndexer implements Subsystem {
         else if(intakePower < 0) intakeServo.setPower(1);
         else intakeServo.setPower(0);
 
-        sideArmServo.setPosition(sideArmState ? 0.22 : 0.7);
+        //sideArmServo.setPosition(sideArmState ? 0.22 : 0.7);
+        sideArmServo.setPosition(sideArmState ? 0.42 : 0.92);
 
         telemetry.addData("Green", colorSensor.green());
         telemetry.addData("Side Arm State", sideArmState);

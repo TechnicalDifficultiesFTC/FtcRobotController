@@ -42,8 +42,7 @@ public class IntakeControlCommand implements Command {
             }
         } else sideArmButtonPressed = false;
 
-        if(gunnerGamepad.dpad_right) intakeIndexer.setSideArmState(true);
-        else if(gunnerGamepad.dpad_left) intakeIndexer.setSideArmState(false);
+        if(gunnerGamepad.dpad_up) intakeIndexer.setSideArmState(false);
     }
 
     @Override
