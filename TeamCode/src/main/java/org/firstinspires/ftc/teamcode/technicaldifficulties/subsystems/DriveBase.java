@@ -257,6 +257,11 @@ public class DriveBase extends MecanumDrive implements Subsystem {
         return mode;
     }
 
+    // Untested
+    public void setOperationMode(Mode mode) {
+        this.mode = mode;
+    }
+
     public void setMode(DcMotor.RunMode runMode) {
         for (DcMotorEx motor : motors) motor.setMode(runMode);
     }

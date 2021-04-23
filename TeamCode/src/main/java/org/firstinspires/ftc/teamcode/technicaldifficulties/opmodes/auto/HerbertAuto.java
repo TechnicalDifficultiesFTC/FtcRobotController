@@ -38,7 +38,7 @@ public class HerbertAuto extends LinearOpMode {
 
         driveBase = new DriveBase(hardwareMap, telemetry, true);
         wobbleGrabber = new WobbleGrabber(hardwareMap, telemetry);
-        intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2);
+        intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2, false);
         shooter = new Shooter(hardwareMap, telemetry, gamepad1);
         //vision = new Vision(hardwareMap);
 

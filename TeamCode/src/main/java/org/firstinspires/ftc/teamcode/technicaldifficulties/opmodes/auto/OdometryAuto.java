@@ -32,7 +32,7 @@ public class OdometryAuto extends LinearOpMode {
 
         driveBase = new DriveBase(hardwareMap, telemetry, true);
         wobbleGrabber = new WobbleGrabber(hardwareMap, telemetry);
-        intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2);
+        intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2, false);
         shooter = new Shooter(hardwareMap, telemetry, gamepad1);
         vision = new Vision(hardwareMap, telemetry);
 
@@ -141,9 +141,9 @@ public class OdometryAuto extends LinearOpMode {
         
         // From spawn to the first powershot
         Trajectory fromSpawnTrajectory = driveBase.trajectoryBuilder(startPose)
-                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.65))
-                .splineToLinearHeading(new Pose2d(20, -13, 0), 0)
-                .splineToLinearHeading(new Pose2d(58, -13, 0), 0)
+                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.67))
+                .splineToLinearHeading(new Pose2d(20, -17, 0), 0)
+                .splineToLinearHeading(new Pose2d(58, -17, 0), 0)
                 .build();
         followTrajectory(fromSpawnTrajectory);
 
@@ -152,7 +152,7 @@ public class OdometryAuto extends LinearOpMode {
 
         // Strafe for the second powershot
         Trajectory toSecondTrajectory = driveBase.trajectoryBuilder(fromSpawnTrajectory.end())
-                .strafeRight(8)
+                .strafeRight(7)
                 .build();
         followTrajectory(toSecondTrajectory);
 
@@ -162,7 +162,7 @@ public class OdometryAuto extends LinearOpMode {
 
         // Strafe for the third powershot
         Trajectory toThirdTrajectory = driveBase.trajectoryBuilder(toSecondTrajectory.end())
-                .strafeRight(8 )
+                .strafeRight(7)
                 .build();
         followTrajectory(toThirdTrajectory);
 

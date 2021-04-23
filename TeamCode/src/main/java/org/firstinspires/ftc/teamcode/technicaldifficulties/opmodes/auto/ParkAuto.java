@@ -26,7 +26,7 @@ public class ParkAuto extends LinearOpMode implements DogeOpMode {
 
         DriveBaseOld driveBase = new DriveBaseOld(hardwareMap, telemetry);
         WobbleGrabber wobbleGrabber = new WobbleGrabber(hardwareMap, telemetry);
-        IntakeIndexer intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2);
+        IntakeIndexer intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2, false);
         Shooter shooter = new Shooter(hardwareMap, telemetry, gamepad1);
 
         commander.registerSubsystem(driveBase);

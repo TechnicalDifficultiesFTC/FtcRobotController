@@ -26,7 +26,7 @@ public class TestingOpMode extends LinearOpMode implements DogeOpMode {
 
         DriveBase driveBase = new DriveBase(hardwareMap, telemetry, false);
         WobbleGrabber wobbleGrabber = new WobbleGrabber(hardwareMap, telemetry);
-        IntakeIndexer intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2);
+        IntakeIndexer intakeIndexer = new IntakeIndexer(hardwareMap, telemetry, gamepad1, gamepad2, true);
         Shooter shooter = new Shooter(hardwareMap, telemetry, gamepad1);
 
         commander.registerSubsystem(driveBase);

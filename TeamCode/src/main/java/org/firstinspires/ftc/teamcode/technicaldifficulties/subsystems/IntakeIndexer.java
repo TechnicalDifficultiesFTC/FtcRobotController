@@ -32,11 +32,12 @@ public class IntakeIndexer implements Subsystem {
     private CRServo intakeServo;
     private double intakePower = 0;
 
-    public IntakeIndexer(HardwareMap hardwareMap, Telemetry telemetry, Gamepad driverGamepad, Gamepad gunnerGamepad) {
+    public IntakeIndexer(HardwareMap hardwareMap, Telemetry telemetry, Gamepad driverGamepad, Gamepad gunnerGamepad, boolean sideArmStartState) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
         this.driverGamepad = driverGamepad;
         this.gunnerGamepad = gunnerGamepad;
+        this.sideArmState = sideArmStartState;
     }
 
     @Override

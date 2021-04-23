@@ -17,6 +17,8 @@ public class MaxMecanumDriveCommand extends MecanumDriveCommand {
 
     @Override
     protected double getStrafeStick() {
+        if(gamepad.dpad_up) return 0.4;
+        if(gamepad.dpad_down) return -0.4;
         return gamepad.right_stick_x;
     }
 
