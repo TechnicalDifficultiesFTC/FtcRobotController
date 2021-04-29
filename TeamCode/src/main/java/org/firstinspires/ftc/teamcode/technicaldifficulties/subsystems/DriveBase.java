@@ -221,6 +221,8 @@ public class DriveBase extends MecanumDrive implements Subsystem {
 
                 MotionState targetState = turnProfile.get(t);
 
+                turnController.setTargetPosition(targetState.getX());
+
                 double correction = turnController.update(currentPose.getHeading());
 
                 double targetOmega = targetState.getV();

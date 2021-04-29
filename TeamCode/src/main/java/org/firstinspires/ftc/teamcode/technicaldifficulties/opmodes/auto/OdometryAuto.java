@@ -50,6 +50,7 @@ public class OdometryAuto extends LinearOpMode {
 
         waitForTime(timer, 1, vision);
 
+        /*
         switch(vision.getRingCount()) {
             case ZERO:
                 zeroRings(timer);
@@ -61,6 +62,9 @@ public class OdometryAuto extends LinearOpMode {
                 fourRings(timer);
                 break;
         }
+         */
+
+        oneRing(timer);
     }
 
     private void zeroRings(ElapsedTime timer) {
@@ -181,23 +185,23 @@ public class OdometryAuto extends LinearOpMode {
     private void followTrajectory(Trajectory trajectory) {
         driveBase.followTrajectoryAsync(trajectory);
         while(driveBase.getOperationMode() == DriveBase.Mode.FOLLOW_TRAJECTORY && continueRunning()) {
-            driveBase.periodic();
-            wobbleGrabber.periodic();
-            intakeIndexer.periodic();
-            shooter.periodic();
-            updateTelemetry();
+            drivingUpdateCycle();
         }
     }
 
     private void turn(double angle) {
         driveBase.turnAsync(angle);
         while(driveBase.getOperationMode() == DriveBase.Mode.TURN && continueRunning()) {
-            driveBase.periodic();
-            wobbleGrabber.periodic();
-            intakeIndexer.periodic();
-            shooter.periodic();
-            updateTelemetry();
+            drivingUpdateCycle();
         }
+    }
+
+    private void drivingUpdateCycle() {
+        driveBase.periodic();
+        wobbleGrabber.periodic();
+        intakeIndexer.periodic();
+        shooter.periodic();
+        updateTelemetry();
     }
 
     private void shoot(ElapsedTime timer) {
