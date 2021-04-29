@@ -50,7 +50,7 @@ public class DriveConstants {
     public static double WHEEL_RADIUS = MiscUtils.mmToInches(37.5); // in
     public static double GEAR_RATIO = 1.00; // output (wheel) speed / input (motor) speed
     //public static double TRACK_WIDTH = MiscUtils.mmToInches(377.10); //15.45; //MiscUtils.mmToInches(377.10); // in
-    public static double TRACK_WIDTH = 15.8;
+    public static double TRACK_WIDTH = 15;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -59,7 +59,7 @@ public class DriveConstants {
      * empirically tuned.
      */
     //public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
-    public static double kV = 0.02100; //0.02142;
+    public static double kV = 0.018; //0.02142;
     public static double kA = 0.003; //0.002;
     public static double kStatic = 0.07281; //0.07196;
 
@@ -83,9 +83,9 @@ public class DriveConstants {
     // 44.22 in
     // 44.78
     // 44.95
-    public static double LATERAL_MULTIPLIER = 1.344; // 1.3 OLD -> 1.2766
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static double LATERAL_MULTIPLIER = 1.0; // 1.3 OLD -> 1.2766
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 1);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 1);
 
 
     public static double encoderTicksToInches(double ticks) {
