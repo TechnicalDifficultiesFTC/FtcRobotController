@@ -74,22 +74,57 @@ public class OdometryAuto extends LinearOpMode {
         Pose2d powershotsEndPose = runPowershots(timer, new Pose2d());
 
         // Place first wobble
-        Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose)
+        turn(Math.toRadians(90));
+
+        Trajectory placeWobbleTrajectory = driveBase.trajectoryBuilder(powershotsEndPose.plus(new Pose2d(0, 0, Math.toRadians(90))))
                 .addTemporalMarker(1, () -> shooter.setShooterPower(0))
                 .addDisplacementMarker(15, () -> wobbleGrabber.setArmPower(0.7))
-                .splineToLinearHeading(new Pose2d(powershotsEndPose.getX() + 1, powershotsEndPose.getY() + 52, 0), 0)
+                .splineToConstantHeading(new Vector2d(powershotsEndPose.getX() + 26, powershotsEndPose.getY() + 35), 0)
                 .build();
         followTrajectory(placeWobbleTrajectory);
 
         wobbleGrabber.setClawOpen(true);
         waitForTime(timer, 0.25, wobbleGrabber);
 
+        // Get second wobble
+        /*
         Trajectory getSecondWobble = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
-                .back(10)
-                .splineToSplineHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 35, placeWobbleTrajectory.end().getY(), 170), 0)
-                .splineToSplineHeading(new Pose2d(placeWobbleTrajectory.end().getX() - 45, placeWobbleTrajectory.end().getY(), 180), 0)
+                .splineToConstantHeading(new Vector2d(placeWobbleTrajectory.end().getX(), placeWobbleTrajectory.end().getY() - 15), 0)
+                .splineToConstantHeading(new Vector2d(placeWobbleTrajectory.end().getX() - 64, placeWobbleTrajectory.end().getY() - 15), 0)
+                .splineToConstantHeading(new Vector2d(placeWobbleTrajectory.end().getX() - 64, placeWobbleTrajectory.end().getY() - 5), 0)
                 .build();
         followTrajectory(getSecondWobble);
+         */
+
+        // Get the second wobble
+        Trajectory getSecondWobbleBack = driveBase.trajectoryBuilder(placeWobbleTrajectory.end())
+                .back(15)
+                .build();
+        followTrajectory(getSecondWobbleBack);
+
+        Trajectory getSecondWobbleStrafe = driveBase.trajectoryBuilder(getSecondWobbleBack.end())
+                .strafeLeft(68)
+                .build();
+        followTrajectory(getSecondWobbleStrafe);
+
+        Trajectory getSecondWobbleForward = driveBase.trajectoryBuilder(getSecondWobbleStrafe.end())
+                .forward(10)
+                .build();
+        followTrajectory(getSecondWobbleForward);
+
+        wobbleGrabber.setClawOpen(false);
+        waitForTime(timer, 0.25, wobbleGrabber);
+
+        // Place second wobble
+        Trajectory placeSecondWobble = driveBase.trajectoryBuilder(getSecondWobbleForward.end())
+                .addTemporalMarker(0.5, () -> wobbleGrabber.setArmPower(-0.7))
+                .addDisplacementMarker(40, () -> wobbleGrabber.setArmPower(0.7))
+                .splineToConstantHeading(new Vector2d(getSecondWobbleForward.end().getX() + 60, getSecondWobbleForward.end().getY() - 5), 0)
+                .build();
+        followTrajectory(placeSecondWobble);
+
+        wobbleGrabber.setClawOpen(true);
+        waitForTime(timer, 0.25, wobbleGrabber);
 
         /*
         // Move to parking line
