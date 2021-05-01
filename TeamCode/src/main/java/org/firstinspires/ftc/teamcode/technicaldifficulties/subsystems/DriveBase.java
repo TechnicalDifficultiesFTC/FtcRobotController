@@ -32,6 +32,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxModuleUtil;
 
@@ -114,11 +115,8 @@ public class DriveBase extends MecanumDrive implements Subsystem {
         turnController = new PIDFController(HEADING_PID);
         turnController.setInputBounds(0, 2 * Math.PI);
 
-        velConstraint = new MinVelocityConstraint(Arrays.asList(
-                new AngularVelocityConstraint(MAX_ANG_VEL),
-                new MecanumVelocityConstraint(auto ? MAX_VEL_AUTO : MAX_VEL, TRACK_WIDTH)
-        ));
-        accelConstraint = new ProfileAccelerationConstraint(auto ? MAX_ACCEL_AUTO : MAX_ACCEL);
+        velConstraint = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL);
+        accelConstraint = getAccelerationConstraint(MAX_ACCEL);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
                 new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
 
@@ -350,5 +348,25 @@ public class DriveBase extends MecanumDrive implements Subsystem {
         // flat on a surface
 
         return (double) imu.getAngularVelocity().zRotationRate;
+    }
+
+    public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel) {
+        return new MinVelocityConstraint(Arrays.asList(
+                new AngularVelocityConstraint(maxAngularVel),
+                new MecanumVelocityConstraint(maxVel, TRACK_WIDTH)
+        ));
+    }
+
+    public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel) {
+        return getVelocityConstraint(maxVel, MAX_ANG_VEL);
+    }
+
+
+    public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
+        return new ProfileAccelerationConstraint(maxAccel);
+    }
+
+    public static TrajectoryAccelerationConstraint getAccelerationConstraint() {
+        return getAccelerationConstraint(MAX_ACCEL);
     }
 }
