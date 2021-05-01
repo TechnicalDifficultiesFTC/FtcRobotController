@@ -37,7 +37,7 @@ public class Shooter implements Subsystem {
 
     @Override
     public void periodic() {
-        flickerServo.setPosition(flick ? 0.65 : 0.48);
+        flickerServo.setPosition(flick ? 0.5 : 0.69);
 
         leftMotor.setPower(-shooterPower);
         rightMotor.setPower(-shooterPower);
