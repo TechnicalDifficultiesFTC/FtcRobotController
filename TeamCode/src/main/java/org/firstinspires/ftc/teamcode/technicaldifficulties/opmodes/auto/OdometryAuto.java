@@ -52,7 +52,7 @@ public class OdometryAuto extends LinearOpMode {
         driveBase.setPoseEstimate(new Pose2d());
 
         waitForTime(timer, 0.25, vision);
-        
+
         switch(vision.getRingCount()) {
             case ZERO:
                 zeroRings(timer);
@@ -229,10 +229,9 @@ public class OdometryAuto extends LinearOpMode {
     }
 
     private Pose2d runPowershots(ElapsedTime timer, Pose2d startPose) {
-        
         // From spawn to the first powershot
         Trajectory fromSpawnTrajectory = driveBase.trajectoryBuilder(startPose)
-                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.67))
+                .addDisplacementMarker(10, () -> shooter.setShooterPower(0.65))
                 .splineToLinearHeading(new Pose2d(20, -16, 0), 0)
                 .splineToLinearHeading(new Pose2d(58, -16, 0), 0)
                 .build();
@@ -293,7 +292,7 @@ public class OdometryAuto extends LinearOpMode {
 
     private void shoot(ElapsedTime timer) {
         shooter.setFlick(true);
-        waitForTime(timer, 0.5, shooter);
+        waitForTime(timer, 1, shooter);
         shooter.setFlick(false);
         waitForTime(timer, 0.5, shooter, intakeIndexer);
     }
